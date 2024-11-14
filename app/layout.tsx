@@ -2,6 +2,7 @@ import "../globals.css";
 import { inter } from "@/app/lib/fonts";
 import { Metadata } from "next";
 import Progress from "./progress";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: {
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <Progress />
-        {children}
+        <Providers>
+          <Progress />
+          {children}
+        </Providers>
       </body>
     </html>
   );

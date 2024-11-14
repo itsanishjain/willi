@@ -1,6 +1,7 @@
+import { withAccountKitUi, createColorSet } from "@account-kit/react/tailwind";
 import type { Config } from "tailwindcss";
 
-const config = {
+const config = withAccountKitUi({
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -78,6 +79,10 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  colors: {
+    "btn-primary": createColorSet("#E82594", "#FF66CC"),
+    "fg-accent-brand": createColorSet("#E82594", "#FF66CC"),
+  },
+}) satisfies Config;
 
 export default config;
