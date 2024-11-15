@@ -47,9 +47,9 @@ const AddBeneficiaryForm = () => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (!formData.walletAddress) {
-      newErrors.walletAddress = "Wallet address is required";
-    }
+    // if (!formData.walletAddress) {
+    //   newErrors.walletAddress = "Wallet address is required";
+    // }
 
     if (formData.trustPercentage) {
       const percentage = Number(formData.trustPercentage);
@@ -157,7 +157,7 @@ const AddBeneficiaryForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="p-6 border-none">
       <CardHeader>
         <h2 className="text-2xl font-semibold text-gray-900">
           Add New Beneficiary
