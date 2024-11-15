@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import { headers } from "next/headers";
 import { config } from "@/app/lib/config";
 import { cookieToInitialState } from "@account-kit/core";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: {
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Progress />
           {children}
         </Providers>
+        <Toaster />
       </body>
     </html>
   );
