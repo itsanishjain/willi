@@ -9,6 +9,7 @@ import {
   BarChart,
   Settings,
   User,
+  Home,
 } from "lucide-react";
 
 // Mapping icons to their component names
@@ -18,31 +19,37 @@ const iconMap = {
   BarChart: BarChart,
   Settings: Settings,
   User: User,
+  Home: Home,
 };
 
 const links = [
   {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: "Dashboard",
+    name: "Home",
+    href: "/",
+    icon: "Home",
   },
+  //   {
+  //     name: "Dashboard",
+  //     href: "/dashboard",
+  //     icon: "Dashboard",
+  //   },
+  //   {
+  //     name: "Transactions",
+  //     href: "/transactions",
+  //     icon: "CreditCard",
+  //   },
+  //   {
+  //     name: "Investments",
+  //     href: "/investments",
+  //     icon: "BarChart",
+  //   },
+  //   {
+  //     name: "Settings",
+  //     href: "/settings",
+  //     icon: "Settings",
+  //   },
   {
-    name: "Transactions",
-    href: "/transactions",
-    icon: "CreditCard",
-  },
-  {
-    name: "Investments",
-    href: "/investments",
-    icon: "BarChart",
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: "Settings",
-  },
-  {
-    name: "Beneficiary",
+    name: "Add Beneficiary",
     href: "/add-beneficiary",
     icon: "User", // Assuming you want to use the CreditCard icon, change as needed
   },

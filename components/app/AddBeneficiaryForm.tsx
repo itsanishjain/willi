@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FormErrors {
   email?: string;
@@ -19,7 +20,13 @@ interface FormErrors {
   trustPercentage?: string;
 }
 
+interface ApiError {
+  message: string;
+  errors?: { message: string }[];
+}
+
 const AddBeneficiaryForm = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     walletAddress: "",
     email: "",
@@ -40,9 +47,9 @@ const AddBeneficiaryForm = () => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // if (!formData.walletAddress) {
-    //   newErrors.walletAddress = "Wallet address is required";
-    // }
+    if (!formData.walletAddress) {
+      newErrors.walletAddress = "Wallet address is required";
+    }
 
     if (formData.trustPercentage) {
       const percentage = Number(formData.trustPercentage);
@@ -76,9 +83,28 @@ const AddBeneficiaryForm = () => {
 
     if (validateForm()) {
       try {
-        // Here you would typically make an API call
-        console.log("Form submitted:", formData);
-        // Reset form after successful submission
+        const response = await fetch("/api/beneficiaries", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong");
+        }
+
+        // Show success message
+        toast({
+          title: "Success",
+          description: "Beneficiary added successfully",
+          variant: "default",
+        });
+
+        // Reset form
         setFormData({
           walletAddress: "",
           email: "",
@@ -87,15 +113,51 @@ const AddBeneficiaryForm = () => {
           phoneNumber: "",
         });
       } catch (error) {
-        console.error("Submission error:", error);
+        const apiError = error as ApiError;
+
+        toast({
+          title: "Error",
+          description: apiError.message || "Failed to add beneficiary",
+          variant: "destructive",
+        });
+
+        if (apiError.errors) {
+          // Handle validation errors from API
+          const newErrors: FormErrors = {};
+          apiError.errors.forEach((err) => {
+            const field = err.message.toLowerCase().includes("email")
+              ? "email"
+              : err.message.toLowerCase().includes("wallet")
+              ? "walletAddress"
+              : err.message.toLowerCase().includes("percentage")
+              ? "trustPercentage"
+              : undefined;
+
+            if (field) {
+              newErrors[field as keyof FormErrors] = err.message;
+            }
+          });
+          setErrors(newErrors);
+        }
       }
     }
 
     setIsSubmitting(false);
   };
 
+  const handleCancel = () => {
+    setFormData({
+      walletAddress: "",
+      email: "",
+      trustPercentage: "",
+      relationship: "",
+      phoneNumber: "",
+    });
+    setErrors({});
+  };
+
   return (
-    <Card className="p-6 border-none">
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <h2 className="text-2xl font-semibold text-gray-900">
           Add New Beneficiary
@@ -103,7 +165,26 @@ const AddBeneficiaryForm = () => {
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6">
+          {/* Form fields remain the same */}
           <div className="space-y-4">
+            {/* Wallet Address Field */}
+            <div className="space-y-2">
+              <Label htmlFor="walletAddress" className="text-sm font-medium">
+                Wallet Address <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="walletAddress"
+                name="walletAddress"
+                value={formData.walletAddress}
+                onChange={handleChange}
+                className={errors.walletAddress ? "border-red-500" : ""}
+                placeholder="Enter wallet address or ENS"
+              />
+              {errors.walletAddress && (
+                <p className="text-sm text-red-500">{errors.walletAddress}</p>
+              )}
+            </div>
+
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
@@ -121,25 +202,6 @@ const AddBeneficiaryForm = () => {
               {errors.email && (
                 <p className="text-sm text-red-500">{errors.email}</p>
               )}
-            </div>
-
-            {/* Wallet Address Field */}
-            <div className="space-y-2">
-              <Label htmlFor="walletAddress" className="text-sm font-medium">
-                Wallet Address
-                {/* <span className="text-red-500">*</span> */}
-              </Label>
-              <Input
-                id="walletAddress"
-                name="walletAddress"
-                value={formData.walletAddress}
-                onChange={handleChange}
-                className={errors.walletAddress ? "border-red-500" : ""}
-                placeholder="Enter wallet address or ENS"
-              />
-              {/* {errors.walletAddress && (
-                <p className="text-sm text-red-500">{errors.walletAddress}</p>
-              )} */}
             </div>
 
             {/* Trust Percentage Field */}
@@ -201,20 +263,7 @@ const AddBeneficiaryForm = () => {
         </CardContent>
 
         <CardFooter className="flex justify-end space-x-4 border-t pt-6">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              setFormData({
-                walletAddress: "",
-                email: "",
-                trustPercentage: "",
-                relationship: "",
-                phoneNumber: "",
-              });
-              setErrors({});
-            }}
-          >
+          <Button type="button" variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting}>

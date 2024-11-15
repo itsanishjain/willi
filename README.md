@@ -13,3 +13,9 @@
 ## Ask alchemy
 
 - [] add more redirect urls
+
+## Core fucntions
+
+- [] notifications
+- [] willi smart contract
+- [] email sending

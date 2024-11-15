@@ -21,7 +21,8 @@ export default function Home() {
   //     ) : user ? (
   //       <div className="flex flex-col gap-2 p-2">
   //         <p className="text-xl font-bold">Success!</p>
-  //         You're logged in as {user.email ?? "anon"}.
+  //         You're logged in as {user.email ?? "anon"}. You're Address in as{" "}
+  //         {user.address ?? "anon"}.
   //         <button
   //           className="akui-btn akui-btn-primary mt-6"
   //           onClick={() => logout()}
