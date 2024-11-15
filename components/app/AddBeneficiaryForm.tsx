@@ -179,7 +179,7 @@ const AddBeneficiaryForm = () => {
         </h2>
       </CardHeader>
 
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6">
           {/* Form fields remain the same */}
