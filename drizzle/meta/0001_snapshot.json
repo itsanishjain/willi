@@ -1,6 +1,6 @@
 {
-  "id": "6dc97f52-7416-46c2-a025-64d63ebdd254",
-  "prevId": "e9f1773a-c2ef-46fd-8ce8-00c1b125557d",
+  "id": "acf72e98-dee1-4820-8b19-bb48a2424a6b",
+  "prevId": "aee4d01e-c08a-4da6-a1e0-9ff9dd57e8ec",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -30,7 +30,7 @@
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -51,6 +51,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "accounts_wallet_address_unique": {
+          "name": "accounts_wallet_address_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "wallet_address"
+          ]
+        },
         "accounts_email_unique": {
           "name": "accounts_email_unique",
           "nullsNotDistinct": false,
@@ -66,15 +73,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
           "notNull": true
-        },
-        "wallet_address": {
-          "name": "wallet_address",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
         },
         "email": {
           "name": "email",
@@ -84,9 +85,9 @@
         },
         "trust_percentage": {
           "name": "trust_percentage",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "relationship": {
           "name": "relationship",
@@ -103,6 +104,12 @@
         "account_id": {
           "name": "account_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accountWalletAddress": {
+          "name": "accountWalletAddress",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },

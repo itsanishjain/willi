@@ -1,1 +1,0 @@
-ALTER TABLE "beneficiaries" ALTER COLUMN "id" SET DATA TYPE serial;

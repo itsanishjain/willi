@@ -39,11 +39,11 @@ export async function POST(request: Request) {
       const beneficiary = await db
         .insert(beneficiaries)
         .values({
-          walletAddress: validatedData.walletAddress,
           email: validatedData.email,
           trustPercentage: validatedData.trustPercentage.toString(),
           relationship: validatedData.relationship,
           phoneNumber: validatedData.phoneNumber,
+          accountWalletAddress: validatedData.accountWalletAddress,
         })
         .returning();
 
@@ -59,7 +59,6 @@ export async function POST(request: Request) {
       const beneficiary = await db
         .insert(beneficiaries)
         .values({
-          walletAddress: validatedData.walletAddress,
           email: validatedData.email,
           trustPercentage: validatedData.trustPercentage.toString(),
           relationship: validatedData.relationship,

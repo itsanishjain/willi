@@ -1,18 +1,10 @@
-import {
-  pgTable,
-  text,
-  timestamp,
-  varchar,
-  json,
-  serial,
-  integer,
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial, integer } from "drizzle-orm/pg-core";
 
 import { relations } from "drizzle-orm";
 
 export const accounts = pgTable("accounts", {
   id: serial("id").primaryKey(),
-  walletAddress: text("wallet_address"),
+  walletAddress: text("wallet_address").unique(), // Add unique constraint
   email: text("email").notNull().unique(),
   password: text("password"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
@@ -25,16 +17,12 @@ export const accounts = pgTable("accounts", {
 
 export const beneficiaries = pgTable("beneficiaries", {
   id: serial("id").primaryKey(),
-  walletAddress: varchar("wallet_address", { length: 255 }),
   email: text("email").notNull(),
   trustPercentage: text("trust_percentage"),
   relationship: text("relationship"),
   phoneNumber: text("phone_number"),
-  accountId: integer("account_id"),
-  accountWalletAddress: text("accountWalletAddress").references(
-    () => accounts.walletAddress,
-    { onDelete: "cascade" }
-  ),
+  accountId: integer("account_id"), // Optionally keep accountId
+  accountWalletAddress: text("accountWalletAddress"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
