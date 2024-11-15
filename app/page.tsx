@@ -8,6 +8,7 @@ import {
   useSignerStatus,
   useUser,
 } from "@account-kit/react";
+import { useAuthenticate } from "@account-kit/react";
 
 import { Loader } from "lucide-react";
 
@@ -17,29 +18,16 @@ export default function Home() {
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
 
-  // return (
-  //   <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">
-  //     {signerStatus.isInitializing ? (
-  //       <>Loading...</>
-  //     ) : user ? (
-  //       <div className="flex flex-col gap-2 p-2">
-  //         <p className="text-xl font-bold">Success!</p>
-  //         You're logged in as {user.email ?? "anon"}. You're Address in as{" "}
-  //         {user.address ?? "anon"}.
-  //         <button
-  //           className="akui-btn akui-btn-primary mt-6"
-  //           onClick={() => logout()}
-  //         >
-  //           Log out
-  //         </button>
-  //       </div>
-  //     ) : (
-  //       <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>
-  //         Login
-  //       </button>
-  //     )}
-  //   </main>
-  // );
+  const { authenticate, authenticateAsync, isPending, error } = useAuthenticate(
+    {
+      // these are optional
+      onSuccess: () => {
+        // do something on success
+        console.log("successfully logged IN");
+      },
+      onError: (error) => console.error(error),
+    }
+  );
 
   return (
     <>
@@ -47,15 +35,6 @@ export default function Home() {
         <Loader className="animate-spin w-6 h-6" />
       ) : user ? (
         <div className="flex flex-col gap-2 p-2">
-          {/* <p className="text-xl font-bold">Success!</p>
-          You're logged in as {user.email ?? "anon"}. Your Address is{" "}
-          {user.address ?? "anon"}. */}
-          {/* <button
-            className="akui-btn akui-btn-primary mt-6"
-            onClick={() => logout()}
-          >
-            Log out
-          </button> */}
           <SubscriptionStatus />
           <BeneficiaryList />
         </div>

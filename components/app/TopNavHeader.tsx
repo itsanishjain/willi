@@ -1,9 +1,17 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, Clock } from "lucide-react";
 import Link from "next/link";
 
+import { useSignerStatus, useLogout, useUser } from "@account-kit/react";
+
 const TopNavHeader = () => {
+  const signerStatus = useSignerStatus();
+  const { logout } = useLogout();
+  const user = useUser();
+
   return (
     <div className="w-full bg-white border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -31,6 +39,14 @@ const TopNavHeader = () => {
               <div className="h-6 w-6 rounded-full bg-gray-200" />
               <span className="text-sm">willi.eth</span>
             </Button>
+
+            {signerStatus.isInitializing ? (
+              "loading..."
+            ) : user ? (
+              <Button variant="secondary" onClick={() => logout()}>
+                Log out
+              </Button>
+            ) : null}
 
             {/* Menu Button */}
             <Button
