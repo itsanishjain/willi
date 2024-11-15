@@ -13,6 +13,7 @@
 ## Ask alchemy
 
 - [] add more redirect urls
+- [] https://accountkit.alchemy.com/reference/account-kit/react/hooks/useAuthenticate | useAccount should run after the login
 
 ## Core fucntions
 

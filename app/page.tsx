@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import BeneficiaryList from "@/components/app/BeneficiaryList";
 import SubscriptionStatus from "@/components/app/SubscriptionStatus";
 import {
@@ -9,25 +10,49 @@ import {
   useUser,
 } from "@account-kit/react";
 import { useAuthenticate } from "@account-kit/react";
-
 import { Loader } from "lucide-react";
+
+import { useEffect } from "react";
 
 export default function Home() {
   const user = useUser();
-  const { openAuthModal } = useAuthModal();
+  const { openAuthModal, isOpen, closeAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
 
-  const { authenticate, authenticateAsync, isPending, error } = useAuthenticate(
-    {
-      // these are optional
-      onSuccess: () => {
-        // do something on success
-        console.log("successfully logged IN");
+  // const { authenticate, authenticateAsync, isPending, error } = useAuthenticate(
+  //   {
+  //     // these are optional
+  //     onSuccess: () => {
+  //       // do something on success
+  //       console.log("successfully logged IN");
+  //     },
+  //     onError: (error) => console.error(error),
+  //   }
+  // );
+
+  const addUser = async (body: any) => {
+    const response = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      onError: (error) => console.error(error),
+      body: JSON.stringify(body),
+    });
+  };
+
+  useEffect(() => {
+    console.log("fuckdkfasdkfjmaskdjfkdsjfksd lasdjfoasdjfk asdkfj safjaskdj ");
+    if (user && !isOpen) {
+      const body = { email: user.email, walletAddress: user.address };
+      addUser(body);
+      console.log(body);
     }
-  );
+  }, [user]);
+
+  // console.log("authenticateauthenticateauthenticate", isPending);
+
+  // console.log("auth errro", error);
 
   return (
     <>
@@ -40,9 +65,7 @@ export default function Home() {
         </div>
       ) : (
         <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">
-          <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>
-            Login
-          </button>
+          <Button onClick={openAuthModal}>Login</Button>
         </main>
       )}
     </>
