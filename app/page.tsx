@@ -1,6 +1,7 @@
 "use client";
 
 import BeneficiaryList from "@/components/app/BeneficiaryList";
+import SubscriptionStatus from "@/components/app/SubscriptionStatus";
 import {
   useAuthModal,
   useLogout,
@@ -40,6 +41,7 @@ export default function Home() {
 
   return (
     <>
+      <SubscriptionStatus />
       <BeneficiaryList />
     </>
   );
