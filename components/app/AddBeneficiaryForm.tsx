@@ -95,7 +95,7 @@ const AddBeneficiaryForm = () => {
   };
 
   return (
-    <Card className="mx-8 w-full max-w-2xl mx-auto">
+    <Card className="p-6 border-none">
       <CardHeader>
         <h2 className="text-2xl font-semibold text-gray-900">
           Add New Beneficiary
