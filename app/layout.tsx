@@ -3,6 +3,9 @@ import { inter } from "@/app/lib/fonts";
 import { Metadata } from "next";
 import Progress from "./progress";
 import { Providers } from "./providers";
+import { headers } from "next/headers";
+import { config } from "@/app/lib/config";
+import { cookieToInitialState } from "@account-kit/core";
 
 export const metadata: Metadata = {
   title: {
@@ -17,10 +20,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // This will allow us to persist state across page boundaries (read more here: https://accountkit.alchemy.com/react/ssr#persisting-the-account-state)
+  const initialState = cookieToInitialState(
+    config,
+    headers().get("cookie") ?? undefined
+  );
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <Providers>
+        <Providers initialState={initialState}>
           <Progress />
           {children}
         </Providers>
