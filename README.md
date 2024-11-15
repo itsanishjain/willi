@@ -19,3 +19,5 @@
 - [] notifications
 - [] willi smart contract
 - [] email sending
+- [] add beneficies to database'
+- [] add stripe for subscription

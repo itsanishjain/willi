@@ -4618,6 +4618,15 @@
     js-beautify "^1.14.11"
     react-promise-suspense "0.3.4"
 
+"@react-email/render@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-email/render/-/render-1.0.1.tgz#5a8897a2b87c1aa41ebe5dd36233bd8d983b801a"
+  integrity sha512-W3gTrcmLOVYnG80QuUp22ReIT/xfLsVJ+n7ghSlG2BITB8evNABn1AO2rGQoXuK84zKtDAlxCdm3hRyIpZdGSA==
+  dependencies:
+    html-to-text "9.0.5"
+    js-beautify "^1.14.11"
+    react-promise-suspense "0.3.4"
+
 "@react-email/row@0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@react-email/row/-/row-0.0.9.tgz#e7816992691ca89d1d99b0e926247b9f8f23d96a"
@@ -6927,30 +6936,10 @@ agent-base@6:
   dependencies:
     debug "4"
 
-alchemy-sdk@^3.0.0:
+alchemy-sdk@^3.0.0, alchemy-sdk@^3.4.8:
   version "3.4.8"
   resolved "https://registry.yarnpkg.com/alchemy-sdk/-/alchemy-sdk-3.4.8.tgz#ef84a3efe00b5e5924da79ef77c54cdb943e8772"
   integrity sha512-JVyXuARxys8cI+Gu9KdvKr9TWDbbyvUY7cV2QkX7v4skCZUS01n5OqD5tA8iy5cLzU6XEN+MM6f9h4bDDFDmqA==
-  dependencies:
-    "@ethersproject/abi" "^5.7.0"
-    "@ethersproject/abstract-provider" "^5.7.0"
-    "@ethersproject/bignumber" "^5.7.0"
-    "@ethersproject/bytes" "^5.7.0"
-    "@ethersproject/contracts" "^5.7.0"
-    "@ethersproject/hash" "^5.7.0"
-    "@ethersproject/networks" "^5.7.0"
-    "@ethersproject/providers" "^5.7.0"
-    "@ethersproject/units" "^5.7.0"
-    "@ethersproject/wallet" "^5.7.0"
-    "@ethersproject/web" "^5.7.0"
-    axios "^1.7.4"
-    sturdy-websocket "^0.2.1"
-    websocket "^1.0.34"
-
-alchemy-sdk@^3.4.2:
-  version "3.4.7"
-  resolved "https://registry.yarnpkg.com/alchemy-sdk/-/alchemy-sdk-3.4.7.tgz#3586002e5a18e5ca1f5e27b46d886ed54e689da5"
-  integrity sha512-LfYmQaA49MaJHAvW5IZbiDI+Y/2iw4xF3qpOYo2AAJgVu2mUqzMTGfJDMEK3SND/jgRknv7XJ+Ys83KIL3l7Aw==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/abstract-provider" "^5.7.0"
@@ -13561,6 +13550,13 @@ require-main-filename@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
+
+resend@^4.0.1-alpha.0:
+  version "4.0.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/resend/-/resend-4.0.1-alpha.0.tgz#07861760cd80d20a05b455394086b363df44fdce"
+  integrity sha512-qtyGk72ZJ3b3ifmz34l/z/X9EpKuqgjTc76/wihMR8I71IdhDIpIPsx/CgKlkA9oLesc8mryW+zulGr8RtEkJQ==
+  dependencies:
+    "@react-email/render" "1.0.1"
 
 resolve-from@^3.0.0:
   version "3.0.0"

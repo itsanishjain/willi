@@ -13,6 +13,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useUser } from "@account-kit/react";
 
 interface FormErrors {
   email?: string;
@@ -34,6 +35,8 @@ const AddBeneficiaryForm = () => {
     relationship: "",
     phoneNumber: "",
   });
+
+  const user = useUser();
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,6 +84,15 @@ const AddBeneficiaryForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // const response = await fetch("/api/send", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    // console.log("email", response);
+
     if (validateForm()) {
       try {
         const response = await fetch("/api/beneficiaries", {
@@ -88,7 +100,10 @@ const AddBeneficiaryForm = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...formData,
+            accountWalletAddress: user?.address,
+          }),
         });
 
         const data = await response.json();
@@ -163,28 +178,12 @@ const AddBeneficiaryForm = () => {
           Add New Beneficiary
         </h2>
       </CardHeader>
+
+      <pre>{JSON.stringify(user, null, 2)}</pre>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6">
           {/* Form fields remain the same */}
           <div className="space-y-4">
-            {/* Wallet Address Field */}
-            <div className="space-y-2">
-              <Label htmlFor="walletAddress" className="text-sm font-medium">
-                Wallet Address <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="walletAddress"
-                name="walletAddress"
-                value={formData.walletAddress}
-                onChange={handleChange}
-                className={errors.walletAddress ? "border-red-500" : ""}
-                placeholder="Enter wallet address or ENS"
-              />
-              {errors.walletAddress && (
-                <p className="text-sm text-red-500">{errors.walletAddress}</p>
-              )}
-            </div>
-
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
@@ -203,6 +202,24 @@ const AddBeneficiaryForm = () => {
                 <p className="text-sm text-red-500">{errors.email}</p>
               )}
             </div>
+
+            {/* Wallet Address Field */}
+            {/* <div className="space-y-2">
+              <Label htmlFor="walletAddress" className="text-sm font-medium">
+                Wallet Address
+              </Label>
+              <Input
+                id="walletAddress"
+                name="walletAddress"
+                value={formData.walletAddress}
+                onChange={handleChange}
+                className={errors.walletAddress ? "border-red-500" : ""}
+                placeholder="Enter wallet address or ENS"
+              />
+              {errors.walletAddress && (
+                <p className="text-sm text-red-500">{errors.walletAddress}</p>
+              )}
+            </div> */}
 
             {/* Trust Percentage Field */}
             <div className="space-y-2">

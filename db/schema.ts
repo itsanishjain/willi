@@ -1,19 +1,20 @@
-import { pgTable, text, timestamp, varchar, json } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  varchar,
+  json,
+  serial,
+  integer,
+} from "drizzle-orm/pg-core";
 
-export const users = pgTable("users", {
-  walletId: varchar("wallet_id").primaryKey().notNull(),
-  username: varchar("username").unique(),
-  email: varchar("email").unique(),
-  password: varchar("password"),
-  walletAddress: varchar("wallet_address"),
-  role: varchar("role").default("user"), // user, admin
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  bio: text("bio"),
-  location: varchar("location"),
-  timezone: varchar("timezone"),
-  profilePictureUrl: varchar("profile_picture_url"),
-  socialLinks: json("social_links"),
+import { relations } from "drizzle-orm";
+
+export const accounts = pgTable("accounts", {
+  id: serial("id").primaryKey(),
+  walletAddress: text("wallet_address"),
+  email: text("email").notNull().unique(),
+  password: text("password"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
@@ -21,3 +22,28 @@ export const users = pgTable("users", {
     .defaultNow()
     .notNull(),
 });
+
+export const beneficiaries = pgTable("beneficiaries", {
+  id: serial("id").primaryKey(),
+  walletAddress: varchar("wallet_address", { length: 255 }),
+  email: text("email").notNull(),
+  trustPercentage: text("trust_percentage"),
+  relationship: text("relationship"),
+  phoneNumber: text("phone_number"),
+  accountId: integer("account_id"),
+  accountWalletAddress: text("accountWalletAddress").references(
+    () => accounts.walletAddress,
+    { onDelete: "cascade" }
+  ),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});
+
+// Create relationships
+export const usersRelations = relations(accounts, ({ many }) => ({
+  beneficiaries: many(beneficiaries),
+}));

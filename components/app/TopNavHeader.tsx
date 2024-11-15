@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, Clock } from "lucide-react";
+import Link from "next/link";
 
 const TopNavHeader = () => {
   return (
@@ -8,9 +9,11 @@ const TopNavHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Brand */}
-          <div className="flex-shrink-0">
-            <h1 className="text-xl font-semibold">Willi</h1>
-          </div>
+          <Link href="/">
+            <div className="flex-shrink-0">
+              <h1 className="text-xl font-semibold">Willi</h1>
+            </div>
+          </Link>
 
           {/* Right side - Account & Actions */}
           <div className="flex items-center space-x-4">

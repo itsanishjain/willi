@@ -40,9 +40,9 @@ export default function RootLayout({
             <TopNavHeader />
             <div className="flex flex-1 overflow-hidden">
               {/* Side Navigation */}
-              <aside className="w-24 border-r-2 flex flex-col items-center py-32 space-y-6">
+              {/* <aside className="w-24 border-r-2 flex flex-col items-center py-32 space-y-6">
                 <SideNav />
-              </aside>
+              </aside> */}
               {/* Main Content Area */}
               <main className="flex-1 overflow-y-auto bg-white">
                 <div className="">{children}</div>
