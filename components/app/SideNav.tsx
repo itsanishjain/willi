@@ -8,6 +8,7 @@ import {
   CreditCard,
   BarChart,
   Settings,
+  User,
 } from "lucide-react";
 
 // Mapping icons to their component names
@@ -16,6 +17,7 @@ const iconMap = {
   CreditCard: CreditCard,
   BarChart: BarChart,
   Settings: Settings,
+  User: User,
 };
 
 const links = [
@@ -38,6 +40,11 @@ const links = [
     name: "Settings",
     href: "/settings",
     icon: "Settings",
+  },
+  {
+    name: "Beneficiary",
+    href: "/add-beneficiary",
+    icon: "User", // Assuming you want to use the CreditCard icon, change as needed
   },
 ];
 
