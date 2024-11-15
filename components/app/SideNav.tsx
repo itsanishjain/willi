@@ -49,7 +49,7 @@ const links = [
   //     icon: "Settings",
   //   },
   {
-    name: "Add Beneficiary",
+    name: "Beneficiary",
     href: "/add-beneficiary",
     icon: "User", // Assuming you want to use the CreditCard icon, change as needed
   },
