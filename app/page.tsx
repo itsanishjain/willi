@@ -3,7 +3,12 @@
 import { Button } from "@/components/ui/button";
 import BeneficiaryList from "@/components/app/BeneficiaryList";
 import SubscriptionStatus from "@/components/app/SubscriptionStatus";
-import { useAuthModal, useSignerStatus, useUser } from "@account-kit/react";
+import {
+  useAuthModal,
+  useSignerStatus,
+  useUser,
+  useLogout,
+} from "@account-kit/react";
 import { Loader } from "lucide-react";
 import { v4 } from "uuid";
 
