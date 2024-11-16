@@ -50,8 +50,6 @@ const NFTPortfolio = ({ walletAddress = "anishjain.eth" }) => {
               nft.contract.address
             );
 
-            console.log(priceData.openSea);
-
             // Calculate estimated value (using OpenSea floor price if available)
             const estimatedValue = priceData.openSea?.floorPrice
               ? Number(priceData.openSea.floorPrice)
@@ -113,8 +111,8 @@ const NFTPortfolio = ({ walletAddress = "anishjain.eth" }) => {
   }
 
   return (
-    <div className="w-full max-w-4xl p-6 space-y-6">
-      <pre>{JSON.stringify(nftData, null, 2)}</pre>
+    <div className="flex flex-col md:flex-row space-x-0 md:space-x-4">
+      {/* <pre>{JSON.stringify(nftData, null, 2)}</pre> */}
       {/* Portfolio Value Card */}
       <Card className="w-full bg-white">
         <CardHeader className="pb-2">
