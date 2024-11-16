@@ -6,6 +6,7 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
+import { Address } from "viem";
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
@@ -26,54 +27,76 @@ export default function AccountInfo() {
     lastActiveTime: BigInt(0),
     proofOfLifePeriod: BigInt(0),
     paused: false,
-    beneficiaries: [] as string[],
   });
+  const [beneficiaries, setBeneficiaries] = React.useState<string[]>([]);
 
-  // Fetch data from contract
+  // Main will data fetch
   React.useEffect(() => {
     async function fetchWillData() {
       if (!client?.account?.address) return;
-
       const willAddress = getWillAddress(client.account.address);
       if (!willAddress) return;
 
-      const data = {
-        owner: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "owner",
-        })) as string,
-        smartAccount: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "smartAccount",
-        })) as string,
-        lastActiveTime: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "lastActiveTime",
-        })) as bigint,
-        proofOfLifePeriod: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "proofOfLifePeriod",
-        })) as bigint,
-        paused: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "paused",
-        })) as boolean,
-        beneficiaries: (await client.readContract({
-          abi: willAbi,
-          address: willAddress as `0x${string}`,
-          functionName: "getBeneficiaries",
-        })) as string[],
-      };
+      try {
+        const data = {
+          owner: (await client.readContract({
+            abi: willAbi,
+            address: willAddress as Address,
+            functionName: "owner",
+          })) as string,
+          smartAccount: (await client.readContract({
+            abi: willAbi,
+            address: willAddress as Address,
+            functionName: "smartAccount",
+          })) as string,
+          lastActiveTime: (await client.readContract({
+            abi: willAbi,
+            address: willAddress as Address,
+            functionName: "lastActiveTime",
+          })) as bigint,
+          proofOfLifePeriod: (await client.readContract({
+            abi: willAbi,
+            address: willAddress as Address,
+            functionName: "proofOfLifePeriod",
+          })) as bigint,
+          paused: (await client.readContract({
+            abi: willAbi,
+            address: willAddress as Address,
+            functionName: "paused",
+          })) as boolean,
+        };
 
-      setWillData(data);
+        setWillData(data);
+      } catch (error) {
+        console.error("Error fetching will data:", error);
+      }
     }
 
     fetchWillData();
+  }, [client?.account?.address, getWillAddress]);
+
+  // Separate beneficiaries fetch
+  React.useEffect(() => {
+    async function fetchBeneficiaries() {
+      if (!client?.account?.address) return;
+      const willAddress = getWillAddress(client.account.address);
+      if (!willAddress) return;
+
+      try {
+        const beneficiariesData = await client.readContract({
+          abi: willAbi,
+          address: willAddress as Address,
+          functionName: "getBeneficiaries",
+        });
+        console.log("beneficiariesData", beneficiariesData);
+
+        // setBeneficiaries(beneficiariesData);
+      } catch (error) {
+        console.error("Error fetching beneficiaries:", error);
+      }
+    }
+
+    fetchBeneficiaries();
   }, [client?.account?.address, getWillAddress]);
 
   return (
@@ -90,7 +113,7 @@ export default function AccountInfo() {
           Proof of Life Period: {willData.proofOfLifePeriod.toString()} seconds
         </p>
         <p>Contract Status: {willData.paused ? "Paused" : "Active"}</p>
-        <p>Beneficiaries: {willData.beneficiaries?.join(", ")}</p>
+        <p>Beneficiaries: {beneficiaries.join(", ")}</p>
       </div>
     </div>
   );
