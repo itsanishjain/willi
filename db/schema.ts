@@ -41,6 +41,17 @@ export const beneficiaries = pgTable("beneficiaries", {
     .notNull(),
 });
 
+export const notificationSettings = pgTable("notification_settings", {
+  enabled: boolean("enabled").default(true).notNull(),
+  checkFrequency: integer("check_frequency").notNull(), // number of units
+  checkFrequencyUnit: text("check_frequency_unit").notNull(), // "days" or "months"
+  numberOfAlerts: integer("number_of_alerts").notNull(),
+  lastChecked: timestamp("last_checked"),
+  alertsSent: integer("alerts_sent").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Create relationships
 export const usersRelations = relations(accounts, ({ many }) => ({
   beneficiaries: many(beneficiaries),

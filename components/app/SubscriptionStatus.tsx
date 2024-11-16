@@ -41,10 +41,12 @@ export default function SubscriptionStatus() {
             <Users className="h-4 w-4 mr-2" />
             Beneficiaries
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex-1">
-            <Bell className="h-4 w-4 mr-2" />
-            Notifications
-          </TabsTrigger>
+          <Link href="/notificatios-settings">
+            <TabsTrigger value="notifications" className="flex-1">
+              <Bell className="h-4 w-4 mr-2" />
+              Notifications
+            </TabsTrigger>
+          </Link>
         </TabsList>
       </Tabs>
 
