@@ -5,26 +5,17 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { sepolia } from "viem/chains";
-import {
-  createWalletClient,
-  http,
-  encodeFunctionData,
-  parseAbi,
-  encodeDeployData,
-  zeroAddress,
-  Address,
-} from "viem";
+import { encodeFunctionData, Address } from "viem";
+import { SALT } from "@/app/lib/constants";
+
 export default function SetBeneficiaries() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
     accountParams: {
-      salt: BigInt(0),
+      salt: BigInt(SALT),
     },
   });
 
@@ -42,18 +33,22 @@ export default function SetBeneficiaries() {
     });
 
   const buttonPressed = async () => {
-    if (!client?.account.address) return;
+    // if (!client?.account.address) return;
+    // Parameters to edit
+    const beneficiaries: Address[] = [];
+    const deployedWillContractAddress =
+      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
 
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
         functionName: "setBeneficiaries",
-        args: [],
+        args: [beneficiaries],
       });
 
       sendUserOperation({
         uo: {
-          target: "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078",
+          target: deployedWillContractAddress,
           data: encodedWillData,
           value: BigInt(0),
         },

@@ -6,10 +6,10 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
+import { abi as willAbi } from "@/app/abi/Will.json";
+import { encodeFunctionData } from "viem";
 import { SALT } from "@/app/lib/constants";
-export default function Alive() {
+export default function SetPeriod() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -21,7 +21,6 @@ export default function Alive() {
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
       client,
-      // optional parameter that will wait for the transaction to be mined before returning
       waitForTxn: true,
       onSuccess: ({ hash, request }) => {
         console.log("hash", hash);
@@ -34,17 +33,20 @@ export default function Alive() {
 
   const buttonPressed = async () => {
     // if (!client?.account.address) return;
-
+    // Parameters to edit
+    const period = 1;
+    const deployedWillContractAddress =
+      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
-        functionName: "alive",
-        args: [],
+        functionName: "setPeriod",
+        args: [period],
       });
 
       sendUserOperation({
         uo: {
-          target: "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078",
+          target: deployedWillContractAddress,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -57,14 +59,13 @@ export default function Alive() {
   return (
     <div>
       <button
-        className="bg-green-600 text-white w-40 px-4 py-2 rounded-md"
+        className="bg-amber-700 text-white w-40 px-4 py-2 rounded-md"
         onClick={async () => {
-          console.log("client account address", client?.account.address);
           buttonPressed();
         }}
         disabled={isSendingUserOperation}
       >
-        {isSendingUserOperation ? "Sending..." : "Verify Alive"}
+        {isSendingUserOperation ? "Sending..." : "Set Period"}
       </button>
       {error && <div>{error.message}</div>}
     </div>

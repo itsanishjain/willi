@@ -12,12 +12,14 @@ import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { sepolia } from "viem/chains";
 import { encodeFunctionData, parseAbi } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
+import { SALT } from "@/app/lib/constants";
+
 export default function CreateWill() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
     accountParams: {
-      salt: BigInt(0),
+      salt: BigInt(SALT),
     },
   });
 
@@ -36,7 +38,7 @@ export default function CreateWill() {
     });
 
   const deployContract = async () => {
-    if (!client?.account.address) return;
+    // if (!client?.account.address) return;
 
     try {
       const encodedWillFactoryData = encodeFunctionData({

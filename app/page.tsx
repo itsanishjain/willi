@@ -8,10 +8,11 @@ import {
   useUser,
 } from "@account-kit/react";
 
-import LoggedIn from "@/components/app/TestUpdateOwner";
 import Alive from "@/components/app/Alive";
 import CreateWill from "@/components/app/CreateWill";
 import SetBeneficiaries from "@/components/app/SetBeneficiaries";
+import SetPeriod from "@/components/app/SetPeriod";
+import ClaimAccount from "@/components/app/ClaimAccount";
 
 export default function Home() {
   const user = useUser();
@@ -37,6 +38,8 @@ export default function Home() {
           <CreateWill></CreateWill>
           <SetBeneficiaries></SetBeneficiaries>
           <Alive></Alive>
+          <SetPeriod></SetPeriod>
+          <ClaimAccount></ClaimAccount>
         </div>
       ) : (
         <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>

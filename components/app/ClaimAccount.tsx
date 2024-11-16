@@ -5,11 +5,13 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
+import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
+import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
-export default function Alive() {
+import { encodeFunctionData } from "viem";
+export default function ClaimAccount() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -21,7 +23,6 @@ export default function Alive() {
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
       client,
-      // optional parameter that will wait for the transaction to be mined before returning
       waitForTxn: true,
       onSuccess: ({ hash, request }) => {
         console.log("hash", hash);
@@ -34,17 +35,20 @@ export default function Alive() {
 
   const buttonPressed = async () => {
     // if (!client?.account.address) return;
-
+    // Parameters to edit
+    const period = 1;
+    const deployedWillContractAddress =
+      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
-        functionName: "alive",
+        functionName: "claimAccount",
         args: [],
       });
 
       sendUserOperation({
         uo: {
-          target: "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078",
+          target: deployedWillContractAddress,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -57,14 +61,13 @@ export default function Alive() {
   return (
     <div>
       <button
-        className="bg-green-600 text-white w-40 px-4 py-2 rounded-md"
+        className="bg-red-500 text-white w-40 px-4 py-2 rounded-md"
         onClick={async () => {
-          console.log("client account address", client?.account.address);
           buttonPressed();
         }}
         disabled={isSendingUserOperation}
       >
-        {isSendingUserOperation ? "Sending..." : "Verify Alive"}
+        {isSendingUserOperation ? "Sending..." : "Claim Account"}
       </button>
       {error && <div>{error.message}</div>}
     </div>
