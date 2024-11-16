@@ -40,6 +40,10 @@ const TopNavHeader = () => {
               <span className="text-sm">willi.eth</span>
             </Button>
 
+            <Link href="https://rocketship.lemonsqueezy.com/buy/4a01d680-ec31-4d1c-8dd1-66af668b5ce7?checkout[custom][user_id]=${userId}">
+              <Button>Subscribe</Button>
+            </Link>
+
             {signerStatus.isInitializing ? (
               "loading..."
             ) : user ? (

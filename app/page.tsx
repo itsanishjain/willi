@@ -9,7 +9,7 @@ import {
   useSignerStatus,
   useUser,
 } from "@account-kit/react";
-import { useAuthenticate } from "@account-kit/react";
+// import { useAuthenticate } from "@account-kit/react";
 import { Loader } from "lucide-react";
 import { v4 } from "uuid";
 
@@ -17,7 +17,7 @@ import { useEffect } from "react";
 
 export default function Home() {
   const user = useUser();
-  const { openAuthModal, isOpen, closeAuthModal } = useAuthModal();
+  const { openAuthModal, isOpen } = useAuthModal();
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
 

@@ -12,10 +12,9 @@
 
 ## Ask alchemy
 
-- [] add more redirect urls
-- [] https://accountkit.alchemy.com/reference/account-kit/react/hooks/useAuthenticate | useAccount should run after the login
-- [] multi owner plugin needed or there is proper doc account
-- [] toSmartAccount for devs we need a better way to know what is what
+- [] add more redirect urls options in dashboard so currenrly when I use my live site it's redirects to my localhost
+- [] https://accountkit.alchemy.com/reference/account-kit/react/hooks/useAuthenticate | useAccount should run after the login, so is there is custom hook that's just runs a callback after successfull login "yes there is way to make custome one with useEffect but thought it would be better if there is some hook"
+- [] toSmartAccount for devs we need a better way to know what is what currerenty it's really hard to understand what params are for what
 
 ## Core fucntions
 
