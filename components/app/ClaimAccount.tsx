@@ -11,6 +11,8 @@ import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { SALT } from "@/app/lib/constants";
 import { encodeFunctionData } from "viem";
+import { useWillStore } from "@/app/store/willStore";
+
 export default function ClaimAccount() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
@@ -19,6 +21,11 @@ export default function ClaimAccount() {
       salt: BigInt(SALT),
     },
   });
+
+  const { getWillAddress } = useWillStore();
+  const willAddress = client?.account.address
+    ? getWillAddress(client.account.address)
+    : null;
 
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
@@ -34,11 +41,16 @@ export default function ClaimAccount() {
     });
 
   const buttonPressed = async () => {
-    // if (!client?.account.address) return;
-    // Parameters to edit
-    const period = 1;
-    const deployedWillContractAddress =
-      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
+    if (!client?.account.address) {
+      console.error("Smart account client not initialized");
+      return;
+    }
+
+    if (!willAddress) {
+      console.error("No Will contract address found");
+      return;
+    }
+
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
@@ -48,7 +60,7 @@ export default function ClaimAccount() {
 
       sendUserOperation({
         uo: {
-          target: deployedWillContractAddress,
+          target: willAddress as `0x${string}`,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -65,7 +77,7 @@ export default function ClaimAccount() {
         onClick={async () => {
           buttonPressed();
         }}
-        disabled={isSendingUserOperation}
+        disabled={isSendingUserOperation || !willAddress}
       >
         {isSendingUserOperation ? "Sending..." : "Claim Account"}
       </button>

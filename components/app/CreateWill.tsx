@@ -18,6 +18,7 @@ import {
 } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
+import { useWillStore } from "@/app/store/willStore";
 
 export default function CreateWill() {
   const { client } = useSmartAccountClient({
@@ -27,6 +28,8 @@ export default function CreateWill() {
       salt: BigInt(SALT),
     },
   });
+
+  const { setWillAddress } = useWillStore();
 
   const {
     sendUserOperation,
@@ -45,7 +48,9 @@ export default function CreateWill() {
       if (receipt?.logs && receipt.logs.length >= 2) {
         const deployedWillAddress = receipt.logs[1].address;
         console.log("Deployed Will Address:", deployedWillAddress);
-        // You can store this address in state if needed
+        if (client?.account.address) {
+          setWillAddress(client.account.address, deployedWillAddress);
+        }
       }
     },
     onError: (error) => {

@@ -9,6 +9,8 @@ import {
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
+import { useWillStore } from "@/app/store/willStore";
+
 export default function Alive() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
@@ -17,6 +19,11 @@ export default function Alive() {
       salt: BigInt(SALT),
     },
   });
+
+  const { getWillAddress } = useWillStore();
+  const willAddress = client?.account.address
+    ? getWillAddress(client.account.address)
+    : null;
 
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
@@ -33,7 +40,10 @@ export default function Alive() {
     });
 
   const buttonPressed = async () => {
-    // if (!client?.account.address) return;
+    if (!willAddress) {
+      console.error("No Will contract address found");
+      return;
+    }
 
     try {
       const encodedWillData = encodeFunctionData({
@@ -44,7 +54,7 @@ export default function Alive() {
 
       sendUserOperation({
         uo: {
-          target: "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078",
+          target: willAddress as `0x${string}`,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -59,10 +69,9 @@ export default function Alive() {
       <button
         className="bg-green-600 text-white w-40 px-4 py-2 rounded-md"
         onClick={async () => {
-          console.log("client account address", client?.account.address);
           buttonPressed();
         }}
-        disabled={isSendingUserOperation}
+        disabled={isSendingUserOperation || !willAddress}
       >
         {isSendingUserOperation ? "Sending..." : "Verify Alive"}
       </button>
