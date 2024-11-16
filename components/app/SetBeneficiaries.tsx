@@ -45,7 +45,9 @@ export default function SetBeneficiaries() {
     }
 
     // Parameters to edit
-    const beneficiaries: Address[] = [];
+    const beneficiaries: Address[] = [
+      "0x5c8ad0aa7bd48f0d0eb0fae8fdb01b83fcaa8f89",
+    ];
 
     try {
       const encodedWillData = encodeFunctionData({

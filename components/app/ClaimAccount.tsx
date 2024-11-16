@@ -41,15 +41,10 @@ export default function ClaimAccount() {
     });
 
   const buttonPressed = async () => {
-    if (!client?.account.address) {
-      console.error("Smart account client not initialized");
-      return;
-    }
-
-    if (!willAddress) {
-      console.error("No Will contract address found");
-      return;
-    }
+    // if (!client?.account.address) {
+    //   console.error("Smart account client not initialized");
+    //   return;
+    // }
 
     try {
       const encodedWillData = encodeFunctionData({
@@ -60,7 +55,8 @@ export default function ClaimAccount() {
 
       sendUserOperation({
         uo: {
-          target: willAddress as `0x${string}`,
+          // target: willAddress as `0x${string}`,
+          target: "0x6F0CA9246e429e0557b5E8dF6546e2770C691b03",
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -77,7 +73,7 @@ export default function ClaimAccount() {
         onClick={async () => {
           buttonPressed();
         }}
-        disabled={isSendingUserOperation || !willAddress}
+        disabled={isSendingUserOperation}
       >
         {isSendingUserOperation ? "Sending..." : "Claim Account"}
       </button>
