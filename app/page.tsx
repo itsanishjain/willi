@@ -9,6 +9,7 @@ import {
 } from "@account-kit/react";
 
 import LoggedIn from "@/components/app/LoggedIn";
+import Alive from "@/components/app/Alive";
 
 export default function Home() {
   const user = useUser();
@@ -32,6 +33,7 @@ export default function Home() {
           </button>
           <div>{user.address}</div>
           <LoggedIn></LoggedIn>
+          <Alive></Alive>
         </div>
       ) : (
         <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>

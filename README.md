@@ -20,3 +20,6 @@ Client address:
 
 Counter address:
 0x406126d4662812F1D5b14d7351CEd8a74351Bcd1
+
+Will factory address:
+0x3c11E3a91a388D254140affa1B20bBd31b925c5d

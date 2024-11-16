@@ -19,7 +19,7 @@ import {
   zeroAddress,
   Address,
 } from "viem";
-export default function MyOpSenderComponent() {
+export default function Alive() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -55,34 +55,20 @@ export default function MyOpSenderComponent() {
     args: [["0xF7594E70B730FB96fE2EE41611dce7Ee45c3ffEA"], []],
   });
 
-  const deployContract = async () => {
+  const buttonPressed = async () => {
     if (!client?.account.address) return;
 
-    const constructorArgs = [client.account.address]; // Set smart account as owner
-    // const userOp = await client.buildUserOperationFromTx({
-    //   to: "0x0000000000000000000000000000000000000000" as `0x${string}`,
-    //   data: bytecode.object as `0x${string}`,
-    //   // value: BigInt(0),
-    //   chain: sepolia,
-    // });
     try {
-      // Encode constructor arguments
-      // const deployData = encodeDeployData({
-      //   abi: willAbi,
-      //   bytecode: bytecode.object as `0x${string}`,
-      //   args: [], // Pass deployer's address as initialOwner
-      // });
-
-      const encodedWillFactoryData = encodeFunctionData({
-        abi: willFactoryAbi,
-        functionName: "createWill",
+      const encodedWillData = encodeFunctionData({
+        abi: willAbi,
+        functionName: "alive",
         args: [],
       });
 
       sendUserOperation({
         uo: {
-          target: "0x3c11E3a91a388D254140affa1B20bBd31b925c5d",
-          data: encodedWillFactoryData,
+          target: "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078",
+          data: encodedWillData,
           value: BigInt(0),
         },
       });
@@ -97,7 +83,7 @@ export default function MyOpSenderComponent() {
         className="bg-blue-600 text-white w-40"
         onClick={async () => {
           console.log("client account address", client?.account.address);
-          deployContract();
+          buttonPressed();
 
           // sendUserOperation({
           //   uo: {
