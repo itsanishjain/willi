@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/db";
-import { accounts } from "@/db/schema";
+import { accounts, beneficiaries } from "@/db/schema";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    const uuid = body.uuid;
 
     const newAccount = await db
       .insert(accounts)
       .values({
         email: body.email,
         walletAddress: body.walletAddress,
-        uid: body.uid,
       })
       .onConflictDoUpdate({
         target: accounts.walletAddress,
@@ -21,6 +22,12 @@ export async function POST(request: Request) {
         },
       })
       .returning();
+
+    if (uuid) {
+      await db.update(beneficiaries).set({
+        status: true,
+      });
+    }
 
     return NextResponse.json(
       {

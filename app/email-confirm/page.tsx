@@ -38,7 +38,11 @@ export default function EmailConfirmation({
   useEffect(() => {
     if (user && !isOpen) {
       // const uid = v4();
-      const body = { email: user.email, walletAddress: user.address };
+      const body = {
+        email: user.email,
+        walletAddress: user.address,
+        uuid: uuid,
+      };
       addUser(body);
       console.log(body);
       // window.localStorage.setItem("WILLI_UID", uid);
