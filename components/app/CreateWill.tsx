@@ -10,16 +10,9 @@ import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { sepolia } from "viem/chains";
-import {
-  createWalletClient,
-  http,
-  encodeFunctionData,
-  parseAbi,
-  encodeDeployData,
-  zeroAddress,
-  Address,
-} from "viem";
-export default function MyOpSenderComponent() {
+import { encodeFunctionData, parseAbi } from "viem";
+import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
+export default function CreateWill() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -36,43 +29,16 @@ export default function MyOpSenderComponent() {
       onSuccess: ({ hash, request }) => {
         console.log("hash", hash);
         console.log("request", request);
-        // Get the contract address from the receipt
-        // const contractAddress = receipt?.contractAddress;
-        // if (contractAddress) {
-        //   setDeployedAddress(contractAddress);
-        //   console.log("Contract deployed at:", contractAddress);
-        // }
       },
       onError: (error) => {
         console.error(error);
-        // [optional] Do something with the error
       },
     });
-
-  const encodedTransferOwnership = encodeFunctionData({
-    abi: multiOwnerLightAccountAbi,
-    functionName: "updateOwners",
-    args: [["0xF7594E70B730FB96fE2EE41611dce7Ee45c3ffEA"], []],
-  });
 
   const deployContract = async () => {
     if (!client?.account.address) return;
 
-    const constructorArgs = [client.account.address]; // Set smart account as owner
-    // const userOp = await client.buildUserOperationFromTx({
-    //   to: "0x0000000000000000000000000000000000000000" as `0x${string}`,
-    //   data: bytecode.object as `0x${string}`,
-    //   // value: BigInt(0),
-    //   chain: sepolia,
-    // });
     try {
-      // Encode constructor arguments
-      // const deployData = encodeDeployData({
-      //   abi: willAbi,
-      //   bytecode: bytecode.object as `0x${string}`,
-      //   args: [], // Pass deployer's address as initialOwner
-      // });
-
       const encodedWillFactoryData = encodeFunctionData({
         abi: willFactoryAbi,
         functionName: "createWill",
@@ -81,7 +47,7 @@ export default function MyOpSenderComponent() {
 
       sendUserOperation({
         uo: {
-          target: "0x3c11E3a91a388D254140affa1B20bBd31b925c5d",
+          target: WILL_FACTORY_CONTRACT_ADDRESS,
           data: encodedWillFactoryData,
           value: BigInt(0),
         },
@@ -94,21 +60,14 @@ export default function MyOpSenderComponent() {
   return (
     <div>
       <button
-        className="bg-blue-600 text-white w-40"
+        className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
         onClick={async () => {
           console.log("client account address", client?.account.address);
           deployContract();
-
-          // sendUserOperation({
-          //   uo: {
-          //     target: client!.account.address,
-          //     data: encodedTransferOwnership,
-          //   },
-          // });
         }}
         disabled={isSendingUserOperation}
       >
-        {isSendingUserOperation ? "Sending..." : "Send UO"}
+        {isSendingUserOperation ? "Sending..." : "Create Will"}
       </button>
       {error && <div>{error.message}</div>}
     </div>

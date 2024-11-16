@@ -5,23 +5,32 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
+import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
+import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
-import { SALT } from "@/app/lib/constants";
-export default function Alive() {
+import { sepolia } from "viem/chains";
+import {
+  createWalletClient,
+  http,
+  encodeFunctionData,
+  parseAbi,
+  encodeDeployData,
+  zeroAddress,
+  Address,
+} from "viem";
+export default function SetBeneficiaries() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
     accountParams: {
-      salt: BigInt(SALT),
+      salt: BigInt(0),
     },
   });
 
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
       client,
-      // optional parameter that will wait for the transaction to be mined before returning
       waitForTxn: true,
       onSuccess: ({ hash, request }) => {
         console.log("hash", hash);
@@ -38,7 +47,7 @@ export default function Alive() {
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
-        functionName: "alive",
+        functionName: "setBeneficiaries",
         args: [],
       });
 
@@ -57,14 +66,13 @@ export default function Alive() {
   return (
     <div>
       <button
-        className="bg-green-600 text-white w-40 px-4 py-2 rounded-md"
+        className="bg-slate-700 text-white w-40 px-4 py-2 rounded-md"
         onClick={async () => {
-          console.log("client account address", client?.account.address);
           buttonPressed();
         }}
         disabled={isSendingUserOperation}
       >
-        {isSendingUserOperation ? "Sending..." : "Verify Alive"}
+        {isSendingUserOperation ? "Sending..." : "Set Beneficiaries"}
       </button>
       {error && <div>{error.message}</div>}
     </div>

@@ -8,8 +8,10 @@ import {
   useUser,
 } from "@account-kit/react";
 
-import LoggedIn from "@/components/app/LoggedIn";
+import LoggedIn from "@/components/app/TestUpdateOwner";
 import Alive from "@/components/app/Alive";
+import CreateWill from "@/components/app/CreateWill";
+import SetBeneficiaries from "@/components/app/SetBeneficiaries";
 
 export default function Home() {
   const user = useUser();
@@ -32,7 +34,8 @@ export default function Home() {
             Log out
           </button>
           <div>{user.address}</div>
-          <LoggedIn></LoggedIn>
+          <CreateWill></CreateWill>
+          <SetBeneficiaries></SetBeneficiaries>
           <Alive></Alive>
         </div>
       ) : (
