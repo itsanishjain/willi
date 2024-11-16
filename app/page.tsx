@@ -22,7 +22,7 @@ import ClaimAccount from "@/components/app/ClaimAccount";
 
 export default function Home() {
   const user = useUser();
-  const { openAuthModal, isOpen } = useAuthModal();
+  const { openAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
 
