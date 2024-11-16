@@ -2,6 +2,7 @@
 // Setup: npm install alchemy-sdk
 import { Network, Alchemy } from "alchemy-sdk";
 import BankingDashboard from "@/components/app/BankingDashboard";
+import NFTPortfolio from "@/components/app/NFTPortfolio";
 
 export default function Page() {
   // Optional Config object, but defaults to demo api-key and eth-mainnet.
@@ -21,6 +22,7 @@ export default function Page() {
   return (
     <>
       <BankingDashboard />
+      <NFTPortfolio />
     </>
   );
 }

@@ -24,3 +24,8 @@ Will factory address:
 0x3c11E3a91a388D254140affa1B20bBd31b925c5d
 
 go ahead use it mortal people, you need it trust me, my mom also know that
+
+- get all the tokens and nfts prices in USD
+- address
+- tokenId
+-
