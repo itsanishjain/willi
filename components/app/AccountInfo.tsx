@@ -26,7 +26,7 @@ export default function AccountInfo() {
     lastActiveTime: BigInt(0),
     proofOfLifePeriod: BigInt(0),
     paused: false,
-    // beneficiaries: [] as string[],
+    beneficiaries: [] as string[],
   });
 
   // Fetch data from contract
@@ -63,11 +63,11 @@ export default function AccountInfo() {
           address: willAddress as `0x${string}`,
           functionName: "paused",
         })) as boolean,
-        // beneficiaries: (await client.readContract({
-        //   abi: willAbi,
-        //   address: willAddress as `0x${string}`,
-        //   functionName: "getBeneficiaries",
-        // })) as string[],
+        beneficiaries: (await client.readContract({
+          abi: willAbi,
+          address: willAddress as `0x${string}`,
+          functionName: "getBeneficiaries",
+        })) as string[],
       };
 
       setWillData(data);
@@ -90,7 +90,7 @@ export default function AccountInfo() {
           Proof of Life Period: {willData.proofOfLifePeriod.toString()} seconds
         </p>
         <p>Contract Status: {willData.paused ? "Paused" : "Active"}</p>
-        {/* <p>Beneficiaries: {willData.beneficiaries.join(", ")}</p> */}
+        <p>Beneficiaries: {willData.beneficiaries?.join(", ")}</p>
       </div>
     </div>
   );
