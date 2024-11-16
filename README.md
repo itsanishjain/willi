@@ -20,6 +20,6 @@
 
 - [] notifications
 - [] willi smart contract
-- [] email sending
-- [] add beneficies to database'
-- [] add stripe for subscription
+- [x] email sending
+- [x] add beneficies to database
+- [x] add lemonsqey for subscription
