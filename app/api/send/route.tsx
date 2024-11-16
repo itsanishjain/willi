@@ -4,13 +4,16 @@ import { env } from "@/env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export async function POST() {
+export async function POST(request: Request) {
+  const body = await request.json();
   try {
     const { data, error } = await resend.emails.send({
       from: "willi-noreply@appstronauts.shop",
-      to: ["helloanishjain@gmail.com"],
+      to: [body.to],
       subject: "Willi Smart Wallet",
-      react: BeneficiaryConfirmationEmail({ benefactorName: "Fater" }),
+      react: BeneficiaryConfirmationEmail({
+        benefactorName: body.accountWalletAddress,
+      }),
     });
 
     if (error) {

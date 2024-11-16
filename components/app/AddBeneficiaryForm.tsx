@@ -15,6 +15,8 @@ import { AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@account-kit/react";
 
+import { truncateAddress } from "@/app/lib/utils";
+
 interface FormErrors {
   email?: string;
   walletAddress?: string;
@@ -50,10 +52,6 @@ const AddBeneficiaryForm = () => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // if (!formData.walletAddress) {
-    //   newErrors.walletAddress = "Wallet address is required";
-    // }
-
     if (formData.trustPercentage) {
       const percentage = Number(formData.trustPercentage);
       if (isNaN(percentage) || percentage < 0 || percentage > 100) {
@@ -84,15 +82,6 @@ const AddBeneficiaryForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // const response = await fetch("/api/send", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-
-    // console.log("email", response);
-
     if (validateForm()) {
       try {
         const response = await fetch("/api/beneficiaries", {
@@ -106,10 +95,29 @@ const AddBeneficiaryForm = () => {
           }),
         });
 
+        const emailResponse = await fetch("/api/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            to: formData.email,
+            accountWalletAddress: truncateAddress(user?.address || ""),
+          }),
+        });
+
         const data = await response.json();
 
         if (!response.ok) {
           throw new Error(data.message || "Something went wrong");
+        }
+
+        if (emailResponse) {
+          toast({
+            title: "Success",
+            description: "Email successfully",
+            variant: "default",
+          });
         }
 
         // Show success message
