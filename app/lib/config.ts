@@ -2,6 +2,9 @@ import { AlchemyAccountsUIConfig, createConfig } from "@account-kit/react";
 import { sepolia, alchemy } from "@account-kit/infra";
 import { QueryClient } from "@tanstack/react-query";
 
+const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? ""
+
+
 const uiConfig: AlchemyAccountsUIConfig = {
   illustrationStyle: "outline",
   auth: {
@@ -25,10 +28,11 @@ const uiConfig: AlchemyAccountsUIConfig = {
 
 export const config = createConfig(
   {
-    transport: alchemy({ apiKey: "YPKzU0ZMYqMS1DahZ0K52A0BnLT0sfgu" }),
+    transport: alchemy({ apiKey: alchemyApiKey }),
     chain: sepolia,
-    ssr: true, // set to false if you're not using server-side rendering
+    ssr: false, // set to false if you're not using server-side rendering
     enablePopupOauth: true,
+    policyId:process.env.NEXT_PUBLIC_POLICY_ID!
   },
   uiConfig
 );
