@@ -10,8 +10,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useUser } from "@account-kit/react";
+import { truncateAddress } from "@/app/lib/utils";
 
 const BankingDashboard = () => {
+  const user = useUser();
   // Sample data for the last 30 days
   const chartData = Array.from({ length: 30 }, (_, i) => ({
     date: new Date(
@@ -116,7 +119,9 @@ const BankingDashboard = () => {
                 </svg>
               </div>
               <div>
-                <div className="font-medium">Savings ••7720</div>
+                <div className="font-medium">
+                  Savings {truncateAddress(user?.address || "")}
+                </div>
               </div>
             </div>
             <div className="text-right">
