@@ -33,6 +33,11 @@ const links = [
     href: "/add-beneficiary",
     icon: "User", // Assuming you want to use the CreditCard icon, change as needed
   },
+  {
+    name: "Transaction",
+    href: "/transactions",
+    icon: "CreditCard",
+  },
 ];
 
 export default function SideNav() {

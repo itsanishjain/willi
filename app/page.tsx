@@ -31,22 +31,26 @@ export default function Home() {
       {signerStatus.isInitializing ? (
         <>Loading...</>
       ) : user ? (
-        <div className="flex flex-col gap-2 p-2">
-          <p className="text-xl font-bold">Success!</p>
-          You're logged in as {user.email ?? "anon"}.
-          <button
-            className="akui-btn akui-btn-primary mt-6"
-            onClick={() => logout()}
-          >
-            Log out
-          </button>
-          <div>{user.address}</div>
-          <CreateWill></CreateWill>
-          <SetBeneficiaries></SetBeneficiaries>
-          <Alive></Alive>
-          <SetPeriod></SetPeriod>
-          <ClaimAccount></ClaimAccount>
-        </div>
+        <>
+          <SubscriptionStatus />
+
+          <div className="flex flex-col gap-2 p-2">
+            <p className="text-xl font-bold">Success!</p>
+            You're logged in as {user.email ?? "anon"}.
+            <button
+              className="akui-btn akui-btn-primary mt-6"
+              onClick={() => logout()}
+            >
+              Log out
+            </button>
+            <div>{user.address}</div>
+            <CreateWill></CreateWill>
+            <SetBeneficiaries></SetBeneficiaries>
+            <Alive></Alive>
+            <SetPeriod></SetPeriod>
+            <ClaimAccount></ClaimAccount>
+          </div>
+        </>
       ) : (
         <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>
           Login
