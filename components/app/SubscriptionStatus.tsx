@@ -1,7 +1,6 @@
-import { Bell, Search, UserPlus, Users } from "lucide-react";
+import { Bell, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
@@ -49,22 +48,6 @@ export default function SubscriptionStatus() {
           </Link>
         </TabsList>
       </Tabs>
-
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Beneficiaries</h2>
-        <div className="flex gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Filter by address or ENS" className="pl-8" />
-          </div>
-          <Link href="/add-beneficiary">
-            <Button className="gap-2">
-              <UserPlus className="h-4 w-4" />
-              Add Beneficiary
-            </Button>
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

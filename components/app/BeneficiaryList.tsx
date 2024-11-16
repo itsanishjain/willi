@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -7,8 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Search, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Beneficiary {
   id: string;
@@ -56,89 +60,106 @@ const BeneficiaryList = () => {
   ];
 
   return (
-    <div className="w-full px-6 py-4">
-      <div className="rounded-lg border border-gray-100 overflow-hidden bg-white">
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-gray-100">
-              <TableHead className="w-[300px] text-gray-600 font-medium">
-                Beneficiary
-              </TableHead>
-              <TableHead className="w-[200px] text-gray-600 font-medium">
-                Trust percentage
-              </TableHead>
-              <TableHead className="w-[250px] text-gray-600 font-medium">
-                Email
-              </TableHead>
-              <TableHead className="w-[200px] text-gray-600 font-medium">
-                Relationship
-              </TableHead>
-              <TableHead className="w-[200px] text-gray-600 font-medium">
-                Phone Number
-              </TableHead>
-              <TableHead className="w-[150px] text-gray-600 font-medium">
-                Will Status
-              </TableHead>
-              <TableHead className="w-[50px]"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {beneficiaries.map((beneficiary) => (
-              <TableRow
-                key={beneficiary.id}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <TableCell className="py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gray-200 flex-shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="text-gray-900 font-medium">
-                        {beneficiary.walletAddress}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {beneficiary.shortAddress}
-                      </span>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-gray-900 font-medium">
-                  {beneficiary.trustPercentage}%
-                </TableCell>
-                <TableCell className="text-gray-900">
-                  {beneficiary.email}
-                </TableCell>
-                <TableCell className="text-gray-900">
-                  {beneficiary.relationship}
-                </TableCell>
-                <TableCell className="text-gray-900">
-                  {beneficiary.phoneNumber}
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                      beneficiary.status === "Active"
-                        ? "bg-green-50 text-green-700"
-                        : "bg-red-50 text-red-700"
-                    }`}
-                  >
-                    {beneficiary.status}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-gray-500 hover:text-gray-700"
-                  >
-                    <EllipsisVertical className="h-5 w-5" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+    <>
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold tracking-tight">Beneficiaries</h2>
+        <div className="flex gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="Filter by address or ENS" className="pl-8" />
+          </div>
+          <Link href="/add-beneficiary">
+            <Button className="gap-2">
+              <UserPlus className="h-4 w-4" />
+              Add Beneficiary
+            </Button>
+          </Link>
+        </div>
       </div>
-    </div>
+      <div className="w-full px-6 py-4">
+        <div className="rounded-lg border border-gray-100 overflow-hidden bg-white">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-gray-100">
+                <TableHead className="w-[300px] text-gray-600 font-medium">
+                  Beneficiary
+                </TableHead>
+                <TableHead className="w-[200px] text-gray-600 font-medium">
+                  Trust percentage
+                </TableHead>
+                <TableHead className="w-[250px] text-gray-600 font-medium">
+                  Email
+                </TableHead>
+                <TableHead className="w-[200px] text-gray-600 font-medium">
+                  Relationship
+                </TableHead>
+                <TableHead className="w-[200px] text-gray-600 font-medium">
+                  Phone Number
+                </TableHead>
+                <TableHead className="w-[150px] text-gray-600 font-medium">
+                  Will Status
+                </TableHead>
+                <TableHead className="w-[50px]"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {beneficiaries.map((beneficiary) => (
+                <TableRow
+                  key={beneficiary.id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <TableCell className="py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gray-200 flex-shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-gray-900 font-medium">
+                          {beneficiary.walletAddress}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {beneficiary.shortAddress}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-gray-900 font-medium">
+                    {beneficiary.trustPercentage}%
+                  </TableCell>
+                  <TableCell className="text-gray-900">
+                    {beneficiary.email}
+                  </TableCell>
+                  <TableCell className="text-gray-900">
+                    {beneficiary.relationship}
+                  </TableCell>
+                  <TableCell className="text-gray-900">
+                    {beneficiary.phoneNumber}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        beneficiary.status === "Active"
+                          ? "bg-green-50 text-green-700"
+                          : "bg-red-50 text-red-700"
+                      }`}
+                    >
+                      {beneficiary.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-gray-500 hover:text-gray-700"
+                    >
+                      <EllipsisVertical className="h-5 w-5" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </>
   );
 };
 
