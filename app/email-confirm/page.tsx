@@ -11,26 +11,19 @@ import {
 } from "@account-kit/react";
 import { useAuthenticate } from "@account-kit/react";
 import { Loader } from "lucide-react";
-import { v4 } from "uuid";
 
 import { useEffect } from "react";
 
-export default function Home() {
+export default function EmailConfirmation({
+  searchParams,
+}: {
+  searchParams: { uuid: string };
+}) {
   const user = useUser();
   const { openAuthModal, isOpen, closeAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
-
-  // const { authenticate, authenticateAsync, isPending, error } = useAuthenticate(
-  //   {
-  //     // these are optional
-  //     onSuccess: () => {
-  //       // do something on success
-  //       console.log("successfully logged IN");
-  //     },
-  //     onError: (error) => console.error(error),
-  //   }
-  // );
+  const uuid = searchParams.uuid;
 
   const addUser = async (body: any) => {
     const response = await fetch("/api/user", {
@@ -43,19 +36,28 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log("fuckdkfasdkfjmaskdjfkdsjfksd lasdjfoasdjfk asdkfj safjaskdj ");
     if (user && !isOpen) {
-      const uid = v4();
-      const body = { email: user.email, walletAddress: user.address, uid: uid };
+      // const uid = v4();
+      const body = { email: user.email, walletAddress: user.address };
       addUser(body);
       console.log(body);
-      window.localStorage.setItem("WILLI_UID", uid);
+      // window.localStorage.setItem("WILLI_UID", uid);
     }
   }, [user]);
 
-  // console.log("authenticateauthenticateauthenticate", isPending);
-
-  // console.log("auth errro", error);
+  if (!uuid) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">Error</h2>
+          <p className="text-gray-700">
+            Oops! It seems like the page is missing a valid UUID.
+          </p>
+          <p className="text-gray-700">Please check the link and try again.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -63,8 +65,9 @@ export default function Home() {
         <Loader className="animate-spin w-6 h-6" />
       ) : user ? (
         <div className="flex flex-col gap-2 p-2">
-          <SubscriptionStatus />
-          <BeneficiaryList />
+          {/* <SubscriptionStatus />
+          <BeneficiaryList /> */}
+          {uuid}
         </div>
       ) : (
         <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">

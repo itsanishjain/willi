@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,6 +39,11 @@ const AddBeneficiaryForm = () => {
   });
 
   const user = useUser();
+  let WILLI_UID: string | null;
+
+  useEffect(() => {
+    WILLI_UID = window.localStorage.getItem("WILLI_UID");
+  }, []);
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,6 +83,10 @@ const AddBeneficiaryForm = () => {
     }
   };
 
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -95,6 +104,14 @@ const AddBeneficiaryForm = () => {
           }),
         });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong");
+        }
+
+        console.log("DAta", data);
+
         const emailResponse = await fetch("/api/send", {
           method: "POST",
           headers: {
@@ -103,14 +120,9 @@ const AddBeneficiaryForm = () => {
           body: JSON.stringify({
             to: formData.email,
             accountWalletAddress: truncateAddress(user?.address || ""),
+            confirmationLink: `${baseUrl}/email-confirm?uuid=${data.data[0].accountWalletAddress}`,
           }),
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Something went wrong");
-        }
 
         if (emailResponse) {
           toast({

@@ -12,6 +12,7 @@ export async function POST(request: Request) {
       .values({
         email: body.email,
         walletAddress: body.walletAddress,
+        uid: body.uid,
       })
       .onConflictDoUpdate({
         target: accounts.walletAddress,

@@ -1,9 +1,18 @@
-import { pgTable, text, timestamp, serial, integer } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  serial,
+  integer,
+  boolean,
+  uuid,
+} from "drizzle-orm/pg-core";
 
 import { relations } from "drizzle-orm";
 
 export const accounts = pgTable("accounts", {
   id: serial("id").primaryKey(),
+  uid: uuid("uid").defaultRandom(),
   walletAddress: text("wallet_address").unique(), // Add unique constraint
   email: text("email").notNull().unique(),
   password: text("password"),
@@ -23,6 +32,7 @@ export const beneficiaries = pgTable("beneficiaries", {
   phoneNumber: text("phone_number"),
   accountId: integer("account_id"), // Optionally keep accountId
   accountWalletAddress: text("accountWalletAddress"),
+  status: boolean("status").default(false),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),

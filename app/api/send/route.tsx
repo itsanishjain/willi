@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       subject: "Willi Smart Wallet",
       react: BeneficiaryConfirmationEmail({
         benefactorName: body.accountWalletAddress,
+        confirmationLink: body.confirmationLink,
       }),
     });
 

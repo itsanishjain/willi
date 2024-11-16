@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { beneficiaries, accounts } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { v4 } from "uuid";
 
 // Validation schema
 const beneficiarySchema = z.object({
