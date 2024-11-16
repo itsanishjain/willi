@@ -28,26 +28,6 @@ const links = [
     href: "/",
     icon: "Home",
   },
-  //   {
-  //     name: "Dashboard",
-  //     href: "/dashboard",
-  //     icon: "Dashboard",
-  //   },
-  //   {
-  //     name: "Transactions",
-  //     href: "/transactions",
-  //     icon: "CreditCard",
-  //   },
-  //   {
-  //     name: "Investments",
-  //     href: "/investments",
-  //     icon: "BarChart",
-  //   },
-  //   {
-  //     name: "Settings",
-  //     href: "/settings",
-  //     icon: "Settings",
-  //   },
   {
     name: "Beneficiary",
     href: "/add-beneficiary",
