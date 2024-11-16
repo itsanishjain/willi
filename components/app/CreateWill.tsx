@@ -82,6 +82,7 @@ export default function CreateWill() {
 
   return (
     <div>
+      <p>client address {client?.account?.address}</p>
       <button
         className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
         onClick={async () => {

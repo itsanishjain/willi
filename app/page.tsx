@@ -19,6 +19,7 @@ import CreateWill from "@/components/app/CreateWill";
 import SetBeneficiaries from "@/components/app/SetBeneficiaries";
 import SetPeriod from "@/components/app/SetPeriod";
 import ClaimAccount from "@/components/app/ClaimAccount";
+import AccountInfo from "@/components/app/AccountInfo";
 
 export default function Home() {
   const user = useUser();
@@ -46,6 +47,7 @@ export default function Home() {
           <Alive></Alive>
           <SetPeriod></SetPeriod>
           <ClaimAccount></ClaimAccount>
+          <AccountInfo />
         </div>
       ) : (
         <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>
