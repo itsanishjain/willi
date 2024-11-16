@@ -10,7 +10,12 @@ import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { sepolia } from "viem/chains";
-import { encodeFunctionData, parseAbi } from "viem";
+import {
+  encodeFunctionData,
+  parseAbi,
+  decodeFunctionResult,
+  decodeEventLog,
+} from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
 
@@ -23,19 +28,30 @@ export default function CreateWill() {
     },
   });
 
-  const { sendUserOperation, isSendingUserOperation, error } =
-    useSendUserOperation({
-      client,
-      // optional parameter that will wait for the transaction to be mined before returning
-      waitForTxn: true,
-      onSuccess: ({ hash, request }) => {
-        console.log("hash", hash);
-        console.log("request", request);
-      },
-      onError: (error) => {
-        console.error(error);
-      },
-    });
+  const {
+    sendUserOperation,
+    isSendingUserOperation,
+    error,
+    sendUserOperationResult,
+  } = useSendUserOperation({
+    client,
+    waitForTxn: true,
+    onSuccess: async ({ hash, request }) => {
+      console.log("Transaction hash:", hash);
+
+      const receipt = await client?.getTransactionReceipt({ hash });
+      console.log("Transaction receipt:", receipt);
+
+      if (receipt?.logs && receipt.logs.length >= 2) {
+        const deployedWillAddress = receipt.logs[1].address;
+        console.log("Deployed Will Address:", deployedWillAddress);
+        // You can store this address in state if needed
+      }
+    },
+    onError: (error) => {
+      console.error("Operation failed:", error);
+    },
+  });
 
   const deployContract = async () => {
     // if (!client?.account.address) return;
