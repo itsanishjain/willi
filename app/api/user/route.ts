@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/db";
 import { accounts, beneficiaries } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {
@@ -24,10 +25,21 @@ export async function POST(request: Request) {
       .returning();
 
     if (uuid) {
-      await db.update(beneficiaries).set({
-        status: true,
-      });
+      const u = await db
+        .update(beneficiaries)
+        .set({
+          status: true,
+        })
+        .where(eq(beneficiaries.email, body.email))
+        .returning({
+          id: beneficiaries.id,
+          status: beneficiaries.status,
+        });
+
+      console.log(u);
     }
+
+    console.log("Seeing UUID", uuid);
 
     return NextResponse.json(
       {

@@ -14,6 +14,8 @@
 
 - [] add more redirect urls
 - [] https://accountkit.alchemy.com/reference/account-kit/react/hooks/useAuthenticate | useAccount should run after the login
+- [] multi owner plugin needed or there is proper doc account
+- [] toSmartAccount for devs we need a better way to know what is what
 
 ## Core fucntions
 
