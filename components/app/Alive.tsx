@@ -6,7 +6,7 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
 import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
@@ -19,6 +19,7 @@ export default function Alive() {
       salt: BigInt(SALT),
     },
   });
+  const willAbi = willJson.abi;
 
   const { getWillAddress } = useWillStore();
   const willAddress = client?.account.address

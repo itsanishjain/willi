@@ -2,19 +2,14 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import Link from "next/link";
-import {
-  useSignerStatus,
-  useLogout,
-  useUser,
-  useAuthModal,
-} from "@account-kit/react";
+import { useSignerStatus, useUser, useAuthModal } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
+import UserMenu from "@/components/app/UserMenu";
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();
-  const { logout } = useLogout();
   const user = useUser();
   const { openAuthModal } = useAuthModal();
 
@@ -45,22 +40,8 @@ const TopNavHeader = () => {
               <Button>Subscribe</Button>
             </Link>
 
-            {signerStatus.isInitializing ? (
-              "loading..."
-            ) : user ? (
-              <Button variant="secondary" onClick={() => logout()}>
-                Log out
-              </Button>
-            ) : null}
-
-            {/* Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <EllipsisVertical className="h-5 w-5" />
-            </Button>
+            {/* User Menu Dropdown */}
+            {user && <UserMenu />}
           </div>
         </div>
       </div>
