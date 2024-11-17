@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useSignerStatus, useUser, useAuthModal } from "@account-kit/react";
+import { useSignerStatus, useUser, useAuthModal, useLogout } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
 import UserMenu from "@/components/app/UserMenu";
 import {
@@ -14,12 +14,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import SetPeriod from "@/components/app/SetPeriod";
+import { EllipsisVertical } from "lucide-react";
+
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();
   const user = useUser();
   const { openAuthModal } = useAuthModal();
-
+  const { logout } = useLogout();
   return (
     <div className="w-full bg-white border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
