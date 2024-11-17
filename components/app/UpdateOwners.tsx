@@ -6,9 +6,9 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
 import { createWalletClient, http, encodeFunctionData } from "viem";
+import { Address } from "viem";
 
 export default function MyOpSenderComponent() {
   const { client } = useSmartAccountClient({
@@ -45,6 +45,16 @@ export default function MyOpSenderComponent() {
         className="bg-blue-600 text-white w-40"
         onClick={async () => {
           console.log("client account address", client?.account.address);
+          if (!client?.account?.address) {
+            return;
+          }
+          sendUserOperation({
+            uo: {
+              target: client?.account.address as Address,
+              data: encodedTransferOwnership,
+              value: BigInt(0),
+            },
+          });
         }}
         disabled={isSendingUserOperation}
       >

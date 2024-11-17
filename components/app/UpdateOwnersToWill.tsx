@@ -6,15 +6,15 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import willJson from "@/app/abi/Will.json";
-
+import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
 import { encodeFunctionData, Address } from "viem";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
+import multiOwnerLightAccountJson from "@/app/abi/MultiOwnerLightAccount.json";
 
-const willAbi = willJson.abi;
+const multiOwnerLightAccountAbi = multiOwnerLightAccountJson.abi;
 
-export default function SetBeneficiaries() {
+export default function UpdateOwnersToWill() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -47,27 +47,17 @@ export default function SetBeneficiaries() {
       return;
     }
 
-    // Parameters to edit
-    const beneficiaries: Address[] = [
-      "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89",
-    ];
-<<<<<<< HEAD
-    const deployedWillContractAddress =
-      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
-=======
->>>>>>> master
-
     try {
-      const encodedWillData = encodeFunctionData({
-        abi: willAbi,
-        functionName: "setBeneficiaries",
-        args: [beneficiaries],
+      const encodedUpdateOwnership = encodeFunctionData({
+        abi: multiOwnerLightAccountAbi,
+        functionName: "updateOwners",
+        args: [[willAddress], []],
       });
 
       sendUserOperation({
         uo: {
-          target: willAddress as `0x${string}`,
-          data: encodedWillData,
+          target: client?.account.address as Address,
+          data: encodedUpdateOwnership,
           value: BigInt(0),
         },
       });
@@ -85,7 +75,7 @@ export default function SetBeneficiaries() {
         }}
         disabled={isSendingUserOperation || !willAddress}
       >
-        {isSendingUserOperation ? "Sending..." : "Set Beneficiaries"}
+        {isSendingUserOperation ? "Sending..." : "Update Owners To Will"}
       </button>
       {error && <div>{error.message}</div>}
     </div>

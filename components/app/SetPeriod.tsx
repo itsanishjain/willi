@@ -9,8 +9,13 @@ import {
 import willJson from "@/app/abi/Will.json";
 import { encodeFunctionData } from "viem";
 import { SALT } from "@/app/lib/constants";
+<<<<<<< HEAD
 
 const willAbi = willJson.abi;
+=======
+import { useWillStore } from "@/app/store/willStore";
+
+>>>>>>> master
 export default function SetPeriod() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
@@ -19,6 +24,11 @@ export default function SetPeriod() {
       salt: BigInt(SALT),
     },
   });
+
+  const { getWillAddress } = useWillStore();
+  const willAddress = client?.account.address
+    ? getWillAddress(client.account.address)
+    : null;
 
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
@@ -34,11 +44,14 @@ export default function SetPeriod() {
     });
 
   const buttonPressed = async () => {
-    // if (!client?.account.address) return;
+    if (!willAddress) {
+      console.error("No Will contract address found");
+      return;
+    }
+
     // Parameters to edit
     const period = 1;
-    const deployedWillContractAddress =
-      "0xEE754604204B1EE4eD7365a74ac7a8AFDD9c8078";
+
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
@@ -48,7 +61,7 @@ export default function SetPeriod() {
 
       sendUserOperation({
         uo: {
-          target: deployedWillContractAddress,
+          target: willAddress as `0x${string}`,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -65,7 +78,7 @@ export default function SetPeriod() {
         onClick={async () => {
           buttonPressed();
         }}
-        disabled={isSendingUserOperation}
+        disabled={isSendingUserOperation || !willAddress}
       >
         {isSendingUserOperation ? "Sending..." : "Set Period"}
       </button>
