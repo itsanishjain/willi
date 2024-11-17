@@ -1,9 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   type UseSendUserOperationResult,
+  useAuthenticate,
+  useUser,
+  useSignerStatus,
   useSendUserOperation,
   useSmartAccountClient,
+  useAuthModal,
 } from "@account-kit/react";
 import willFactoryJson from "@/app/abi/WillFactory.json";
 const willFactoryAbi = willFactoryJson.abi;
@@ -15,7 +19,6 @@ import { Address, encodeFunctionData, parseAbi } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
-
 export default function CreateWill() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
@@ -25,6 +28,15 @@ export default function CreateWill() {
     },
   });
   const { setWillAddress } = useWillStore();
+  const { authenticate, isPending } = useAuthenticate({
+    onSuccess: () => {
+      deployContract();
+    },
+  });
+  const user = useUser();
+  const signerStatus = useSignerStatus();
+  const { openAuthModal } = useAuthModal();
+
   const [hasSentUpdateOwners, setHasSentUpdateOwners] = useState(false);
   type NewType = Address;
 
@@ -105,6 +117,7 @@ export default function CreateWill() {
       console.error(error);
     }
   };
+
   return (
     <div>
       <button
@@ -112,13 +125,25 @@ export default function CreateWill() {
         onClick={async () => {
           console.log("client account address", client?.account.address);
           setHasSentUpdateOwners(false);
-          deployContract();
+          if (signerStatus.isConnected) {
+            deployContract();
+          } else {
+            try {
+              openAuthModal();
+            } catch (error) {
+              console.log(error);
+            }
+          }
         }}
-        disabled={isSendingUserOperation}
+        disabled={isSendingUserOperation || isPending}
       >
-        {isSendingUserOperation ? "Sending..." : "Create Will"}
+        {isSendingUserOperation
+          ? "Sending..."
+          : isPending
+          ? "Signing in..."
+          : "Create Will"}
       </button>
-      {error && <div>{error.message}</div>}
+      {/* {error && <div>{error.message}</div>} */}
     </div>
   );
 }
