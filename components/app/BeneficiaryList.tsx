@@ -62,18 +62,20 @@ const BeneficiaryList = () => {
   return (
     <>
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Beneficiaries</h2>
-        <div className="flex gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Filter by address or ENS" className="pl-8" />
+        <div className="flex items-center justify-between h-10">
+          <h2 className="text-2xl font-semibold font-['Inter'] leading-none">Beneficiaries</h2>
+          <div className="flex items-center gap-4">
+            <div className="relative flex items-center">
+              <Search className="absolute left-2.5 top-1/2 h-4 w-4 text-muted-foreground -translate-y-1/2" />
+              <Input placeholder="Filter by address or ENS" className="pl-8" />
+            </div>
+            <Link href="/add-beneficiary" className="flex items-center">
+              <Button className="gap-2">
+                <UserPlus className="h-4 w-4" />
+                Add Beneficiary
+              </Button>
+            </Link>
           </div>
-          <Link href="/add-beneficiary">
-            <Button className="gap-2">
-              <UserPlus className="h-4 w-4" />
-              Add Beneficiary
-            </Button>
-          </Link>
         </div>
       </div>
       <div className="w-full px-6 py-4">

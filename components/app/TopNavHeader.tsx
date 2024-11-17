@@ -11,6 +11,14 @@ import {
   useAuthModal,
 } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import SetPeriod from "@/components/app/SetPeriod";
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();
@@ -37,30 +45,47 @@ const TopNavHeader = () => {
               {user?.address ? (
                 truncateAddress(user?.address || "")
               ) : (
-                <Button onClick={openAuthModal}>Login</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700" onClick={openAuthModal}>
+                  Login
+                </Button>
               )}
             </div>
 
-            <Link href="https://rocketship.lemonsqueezy.com/buy/4a01d680-ec31-4d1c-8dd1-66af668b5ce7?checkout[custom][user_id]=${userId}">
-              <Button>Subscribe</Button>
-            </Link>
-
-            {signerStatus.isInitializing ? (
-              "loading..."
-            ) : user ? (
-              <Button variant="secondary" onClick={() => logout()}>
-                Log out
-              </Button>
-            ) : null}
-
-            {/* Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <EllipsisVertical className="h-5 w-5" />
-            </Button>
+            {/* Menu Button with Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="p-2 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-100 transition-colors focus:outline-none [&[data-state=open]]:bg-transparent [&[data-state=open]]:ring-0"
+                  style={{ outline: 'none' }}
+                >
+                  <EllipsisVertical className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {user && (
+                  <>
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link 
+                        href={`https://rocketship.lemonsqueezy.com/buy/4a01d680-ec31-4d1c-8dd1-66af668b5ce7?checkout[custom][user_id]=${user.address}`}
+                        className="w-full"
+                      >
+                        Subscribe
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
+                      Set Period
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="my-1" />
+                    <DropdownMenuItem 
+                      className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                      onClick={() => logout()}
+                    >
+                      Log out
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
