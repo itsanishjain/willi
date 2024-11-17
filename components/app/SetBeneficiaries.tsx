@@ -12,9 +12,13 @@ import { encodeFunctionData, Address } from "viem";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
 
+import { useToast } from "../ui/use-toast";
+
 const willAbi = willJson.abi;
 
 export default function SetBeneficiaries() {
+  const { toast } = useToast();
+
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -35,9 +39,20 @@ export default function SetBeneficiaries() {
       onSuccess: ({ hash, request }) => {
         console.log("hash", hash);
         console.log("request", request);
+
+        toast({
+          title: "Success",
+          description: "Beneficiaries have been successfully set.",
+        });
       },
       onError: (error) => {
         console.error(error);
+
+        toast({
+          title: "Error",
+          description: "Failed to set beneficiaries. Please try again.",
+          variant: "destructive",
+        });
       },
     });
 
