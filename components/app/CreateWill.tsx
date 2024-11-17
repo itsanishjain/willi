@@ -43,8 +43,6 @@ export default function CreateWill() {
         functionName: "createWill",
         args: [
           client?.account.address!, // smartAccount address
-          BigInt(30 * 24 * 60 * 60), // proofOfLifePeriod (30 days in seconds)
-          [beneficiaryAddress], // array of beneficiary addresses
         ],
       });
 
