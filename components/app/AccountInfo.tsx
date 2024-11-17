@@ -28,93 +28,27 @@ export default function AccountInfo() {
     proofOfLifePeriod: BigInt(0),
     paused: false,
   });
-  const [beneficiaries, setBeneficiaries] = React.useState<string[]>([]);
-
+  const willAddress = client?.account.address
+    ? getWillAddress(client.account.address)
+    : null;
   // Main will data fetch
+
+  const [owners, setOwners] = React.useState<
+    readonly `0x${string}`[] | undefined
+  >(undefined);
+
+  const fetchOwners = async () => {
+    const ownerAddresses = await client?.account?.getOwnerAddresses();
+    setOwners(ownerAddresses);
+    console.log("smartAccountOwners", ownerAddresses);
+  };
   React.useEffect(() => {
-    async function fetchWillData() {
-      if (!client?.account?.address) return;
-      const willAddress = getWillAddress(client.account.address);
-      if (!willAddress) return;
-
-      try {
-        const data = {
-          owner: (await client.readContract({
-            abi: willAbi,
-            address: willAddress as Address,
-            functionName: "owner",
-          })) as string,
-          smartAccount: (await client.readContract({
-            abi: willAbi,
-            address: willAddress as Address,
-            functionName: "smartAccount",
-          })) as string,
-          lastActiveTime: (await client.readContract({
-            abi: willAbi,
-            address: willAddress as Address,
-            functionName: "lastActiveTime",
-          })) as bigint,
-          proofOfLifePeriod: (await client.readContract({
-            abi: willAbi,
-            address: willAddress as Address,
-            functionName: "proofOfLifePeriod",
-          })) as bigint,
-          paused: (await client.readContract({
-            abi: willAbi,
-            address: willAddress as Address,
-            functionName: "paused",
-          })) as boolean,
-        };
-
-        setWillData(data);
-      } catch (error) {
-        console.error("Error fetching will data:", error);
-      }
-    }
-
-    fetchWillData();
-  }, [client?.account?.address, getWillAddress]);
-
-  // Separate beneficiaries fetch
-  React.useEffect(() => {
-    async function fetchBeneficiaries() {
-      if (!client?.account?.address) return;
-      const willAddress = getWillAddress(client.account.address);
-      if (!willAddress) return;
-
-      try {
-        const beneficiariesData = await client.readContract({
-          abi: willAbi,
-          address: willAddress as Address,
-          functionName: "getBeneficiaries",
-        });
-        console.log("beneficiariesData", beneficiariesData);
-
-        // setBeneficiaries(beneficiariesData);
-      } catch (error) {
-        console.error("Error fetching beneficiaries:", error);
-      }
-    }
-
-    fetchBeneficiaries();
-  }, [client?.account?.address, getWillAddress]);
+    fetchOwners();
+  }, [client?.account?.address]);
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold">Will Contract Info</h2>
-      <div className="space-y-2">
-        <p>Owner: {willData.owner}</p>
-        <p>Smart Account: {willData.smartAccount}</p>
-        <p>
-          Last Active:{" "}
-          {new Date(Number(willData.lastActiveTime) * 1000).toLocaleString()}
-        </p>
-        <p>
-          Proof of Life Period: {willData.proofOfLifePeriod.toString()} seconds
-        </p>
-        <p>Contract Status: {willData.paused ? "Paused" : "Active"}</p>
-        <p>Beneficiaries: {beneficiaries.join(", ")}</p>
-      </div>
+      <p>Smart Account Owners: {owners}</p>
     </div>
   );
 }

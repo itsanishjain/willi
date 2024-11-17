@@ -5,15 +5,13 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { SALT } from "@/app/lib/constants";
+import { abi as willAbi } from "@/app/abi/Will.json";
 import { encodeFunctionData } from "viem";
+import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
 
-export default function ClaimAccount() {
+export default function SetSmartAccount() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -41,22 +39,21 @@ export default function ClaimAccount() {
     });
 
   const buttonPressed = async () => {
-    // if (!client?.account.address) {
-    //   console.error("Smart account client not initialized");
-    //   return;
-    // }
+    if (!willAddress) {
+      console.error("No Will contract address found");
+      return;
+    }
 
     try {
       const encodedWillData = encodeFunctionData({
         abi: willAbi,
-        functionName: "claimAccount",
-        args: [],
+        functionName: "setSmartAccount",
+        args: [client?.account.address],
       });
 
       sendUserOperation({
         uo: {
-          // target: willAddress as `0x${string}`,
-          target: "0x756412149030cf9c1fc081c2faebef58b8aeb37e",
+          target: willAddress as `0x${string}`,
           data: encodedWillData,
           value: BigInt(0),
         },
@@ -69,13 +66,13 @@ export default function ClaimAccount() {
   return (
     <div>
       <button
-        className="bg-red-500 text-white w-40 px-4 py-2 rounded-md"
+        className="bg-amber-700 text-white w-40 px-4 py-2 rounded-md"
         onClick={async () => {
           buttonPressed();
         }}
-        disabled={isSendingUserOperation}
+        disabled={isSendingUserOperation || !willAddress}
       >
-        {isSendingUserOperation ? "Sending..." : "Claim Account"}
+        {isSendingUserOperation ? "Sending..." : "Set Smart Account"}
       </button>
       {error && <div>{error.message}</div>}
     </div>

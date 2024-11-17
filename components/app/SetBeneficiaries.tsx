@@ -46,7 +46,7 @@ export default function SetBeneficiaries() {
 
     // Parameters to edit
     const beneficiaries: Address[] = [
-      "0x6F0CA9246e429e0557b5E8dF6546e2770C691b03",
+      "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89",
     ];
 
     try {

@@ -16,10 +16,14 @@ import { useEffect } from "react";
 
 import Alive from "@/components/app/Alive";
 import CreateWill from "@/components/app/CreateWill";
+import SetSmartAccount from "@/components/app/SetSmartAccount";
 import SetBeneficiaries from "@/components/app/SetBeneficiaries";
 import SetPeriod from "@/components/app/SetPeriod";
 import ClaimAccount from "@/components/app/ClaimAccount";
 import AccountInfo from "@/components/app/AccountInfo";
+import WillInfo from "@/components/app/WillInfo";
+
+import UpdateOwnersToWill from "@/components/app/UpdateOwnersToWill";
 
 export default function Home() {
   const user = useUser();
@@ -43,11 +47,14 @@ export default function Home() {
           </button>
           <div>{user.address}</div>
           <CreateWill></CreateWill>
+          <UpdateOwnersToWill></UpdateOwnersToWill>
           <SetBeneficiaries></SetBeneficiaries>
+          <SetSmartAccount />
           <Alive></Alive>
           <SetPeriod></SetPeriod>
           <ClaimAccount></ClaimAccount>
           <AccountInfo />
+          <WillInfo />
         </div>
       ) : (
         <button className="akui-btn akui-btn-primary" onClick={openAuthModal}>
