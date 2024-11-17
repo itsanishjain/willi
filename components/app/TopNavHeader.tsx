@@ -6,7 +6,7 @@ import { Clock } from "lucide-react";
 import Link from "next/link";
 import { useSignerStatus, useUser, useAuthModal } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
-import UserMenu from "./UserMenu";
+import UserMenu from "@/components/app/UserMenu";
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();

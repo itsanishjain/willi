@@ -9,13 +9,9 @@ import {
 import willJson from "@/app/abi/Will.json";
 import { encodeFunctionData } from "viem";
 import { SALT } from "@/app/lib/constants";
-<<<<<<< HEAD
-
-const willAbi = willJson.abi;
-=======
 import { useWillStore } from "@/app/store/willStore";
 
->>>>>>> master
+const willAbi = willJson.abi;
 export default function SetPeriod() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",

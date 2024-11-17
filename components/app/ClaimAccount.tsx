@@ -10,13 +10,8 @@ import willJson from "@/app/abi/Will.json";
 
 import { SALT } from "@/app/lib/constants";
 import { encodeFunctionData } from "viem";
-<<<<<<< HEAD
-
-const willAbi = willJson.abi;
-=======
 import { useWillStore } from "@/app/store/willStore";
 
->>>>>>> master
 export default function ClaimAccount() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
@@ -27,6 +22,7 @@ export default function ClaimAccount() {
   });
 
   const { getWillAddress } = useWillStore();
+  const willAbi = willJson.abi;
   const willAddress = client?.account.address
     ? getWillAddress(client.account.address)
     : null;

@@ -9,12 +9,7 @@ import {
 import willJson from "@/app/abi/Will.json";
 import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
-<<<<<<< HEAD
-
-const willAbi = willJson.abi;
-=======
 import { useWillStore } from "@/app/store/willStore";
->>>>>>> master
 
 export default function Alive() {
   const { client } = useSmartAccountClient({
@@ -24,6 +19,7 @@ export default function Alive() {
       salt: BigInt(SALT),
     },
   });
+  const willAbi = willJson.abi;
 
   const { getWillAddress } = useWillStore();
   const willAddress = client?.account.address

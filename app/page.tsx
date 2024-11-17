@@ -3,14 +3,14 @@
 import { Button } from "@/components/ui/button";
 import BeneficiaryList from "@/components/app/BeneficiaryList";
 import SubscriptionStatus from "@/components/app/SubscriptionStatus";
-import { useAuthModal, useSignerStatus, useUser } from "@account-kit/react";
+import {
+  useAuthModal,
+  useLogout,
+  useSignerStatus,
+  useUser,
+} from "@account-kit/react";
 import { Loader } from "lucide-react";
 
-<<<<<<< HEAD
-import SetBeneficiaries from "@/components/app/SetBeneficiaries";
-import SetPeriod from "@/components/app/SetPeriod";
-import Alive from "@/components/app/Alive";
-=======
 import { useEffect } from "react";
 
 import Alive from "@/components/app/Alive";
@@ -23,14 +23,11 @@ import AccountInfo from "@/components/app/AccountInfo";
 import WillInfo from "@/components/app/WillInfo";
 
 import UpdateOwnersToWill from "@/components/app/UpdateOwnersToWill";
->>>>>>> master
 
 export default function Home() {
   const user = useUser();
   const { openAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
-<<<<<<< HEAD
-=======
   const { logout } = useLogout();
 
   return (
@@ -69,7 +66,6 @@ export default function Home() {
       )}
     </main>
   );
->>>>>>> master
 
   return (
     <>
