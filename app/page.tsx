@@ -2,6 +2,7 @@
 
 import { useAuthModal, useSignerStatus, useUser } from "@account-kit/react";
 import AuthWrapper from "@/components/app/AuthWrapper";
+import CreateWill from "@/components/app/CreateWill";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 
@@ -35,7 +36,7 @@ export default function Home() {
             style={{ display: "block" }}
           />
         </div>
-        <Button
+        {/* <Button
           onClick={openAuthModal}
           className="absolute"
           style={{
@@ -51,7 +52,8 @@ export default function Home() {
           }}
         >
           Create Will
-        </Button>
+        </Button> */}
+        <CreateWill />
       </div>
     </AuthWrapper>
   );

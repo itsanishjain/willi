@@ -122,6 +122,17 @@ export default function CreateWill() {
     <div>
       <button
         className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
+        style={{
+          color: "white",
+          backgroundColor: "#000000",
+          borderRadius: "42px",
+          top: "14%",
+          fontSize: "18px",
+          fontWeight: "400",
+          padding: "24px 28px",
+          transform: "translateY(-50%)", // Centers the button vertically at its position
+          zIndex: 10, // Ensures button stays on top
+        }}
         onClick={async () => {
           console.log("client account address", client?.account.address);
           setHasSentUpdateOwners(false);
