@@ -8,10 +8,6 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
-    R2_ENDPOINT: z.string(),
-    R2_ACCESS_ID: z.string(),
-    R2_SECRET_KEY: z.string(),
-    R2_BUCKET_NAME: z.string(),
     RESEND_API_KEY: z.string(),
     NEXT_PUBLIC_ALCHEMY_API_KEY: z.string(),
     NEXT_PUBLIC_POLICY_ID: z.string(),
@@ -36,10 +32,6 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    R2_ENDPOINT: process.env.R2_ENDPOINT,
-    R2_ACCESS_ID: process.env.R2_ACCESS_ID,
-    R2_SECRET_KEY: process.env.R2_SECRET_KEY,
-    R2_BUCKET_NAME: process.env.R2_BUCKET_NAME,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     NEXT_PUBLIC_ALCHEMY_API_KEY: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
     NEXT_PUBLIC_POLICY_ID: process.env.NEXT_PUBLIC_POLICY_ID,
