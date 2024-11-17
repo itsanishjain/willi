@@ -36,3 +36,5 @@ Sent: when you add a beneficiers
 Pending:they didn't e
 Active:
 Inactive
+
+updated
