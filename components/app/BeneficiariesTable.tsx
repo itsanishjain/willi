@@ -26,6 +26,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import SetBeneficiaries from "@/components/app/SetBeneficiaries";
+
 interface Beneficiary {
   id: string;
   accountWalletAddress: string;
@@ -177,11 +179,15 @@ const BeneficiariesTable: React.FC<BeneficiariesTableProps> = ({
                       beneficiary.status === "Active"
                         ? "bg-green-100 text-green-700"
                         : beneficiary.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-700"
+                        ? "bg-green-100 text-yellow-700"
                         : "bg-gray-100 text-gray-700"
                     }`}
                   >
-                    {beneficiary.status || "Not Claimed"}
+                    {beneficiary.status === "Pending" ? (
+                      <SetBeneficiaries />
+                    ) : (
+                      beneficiary.status || "Not Claimed"
+                    )}
                   </span>
                 </TableCell>
                 <TableCell>

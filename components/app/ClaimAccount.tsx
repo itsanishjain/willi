@@ -17,7 +17,7 @@ export default function ClaimAccount({ id }: { id: number }) {
   const { toast } = useToast();
 
   const updateBeni = async () => {
-    const body = { id: id, status: "pending" };
+    const body = { id: id, status: "Activate" };
     fetch("/api/beneficiaries", {
       method: "PATCH",
       headers: {
