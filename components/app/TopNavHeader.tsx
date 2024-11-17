@@ -31,12 +31,6 @@ const TopNavHeader = () => {
 
           {/* Right side - Account & Actions */}
           <div className="flex items-center space-x-4">
-            {/* Timer/Clock Icon */}
-            <div className="hidden sm:flex items-center">
-              <Clock className="h-4 w-4 text-gray-500" />
-              <span className="ml-2 text-sm text-gray-500">0.00</span>
-            </div>
-
             {/* Account Button */}
             <div className="flex items-center space-x-2">
               <div className="h-6 w-6 rounded-full bg-gray-200" />
