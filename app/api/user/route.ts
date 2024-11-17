@@ -7,7 +7,6 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-
     const uuid = body.uuid;
 
     const newAccount = await db
