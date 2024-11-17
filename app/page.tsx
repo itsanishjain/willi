@@ -47,7 +47,7 @@ export default function Home() {
             >
               Log out
             </button>
-            <div>{user.address}</div>
+            <div>User Address {user.address}</div>
             <CreateWill></CreateWill>
             <UpdateOwnersToWill></UpdateOwnersToWill>
             <SetBeneficiaries></SetBeneficiaries>

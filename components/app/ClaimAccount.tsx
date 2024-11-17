@@ -56,7 +56,7 @@ export default function ClaimAccount() {
       sendUserOperation({
         uo: {
           // target: willAddress as `0x${string}`,
-          target: "0x756412149030cf9c1fc081c2faebef58b8aeb37e",
+          target: "0x28c9aa603f1a439c4abb08c472972b0bf7fa696d",
           data: encodedWillData,
           value: BigInt(0),
         },
