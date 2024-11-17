@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
 import Link from "next/link";
 import { useSignerStatus, useUser, useAuthModal } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
