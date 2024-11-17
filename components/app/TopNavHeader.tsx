@@ -2,15 +2,10 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, Clock } from "lucide-react";
 import Link from "next/link";
-import {
-  useSignerStatus,
-  useLogout,
-  useUser,
-  useAuthModal,
-} from "@account-kit/react";
+import { useSignerStatus, useUser, useAuthModal } from "@account-kit/react";
 import { truncateAddress } from "@/app/lib/utils";
+import UserMenu from "@/components/app/UserMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +17,6 @@ import SetPeriod from "@/components/app/SetPeriod";
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();
-  const { logout } = useLogout();
   const user = useUser();
   const { openAuthModal } = useAuthModal();
 

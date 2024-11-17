@@ -5,17 +5,10 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
+import willFactoryJson from "@/app/abi/WillFactory.json";
+const willFactoryAbi = willFactoryJson.abi;
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { sepolia } from "viem/chains";
-import {
-  encodeFunctionData,
-  parseAbi,
-  decodeFunctionResult,
-  decodeEventLog,
-} from "viem";
+import { encodeFunctionData, parseAbi } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
@@ -28,44 +21,42 @@ export default function CreateWill() {
       salt: BigInt(SALT),
     },
   });
-
   const { setWillAddress } = useWillStore();
+  const { sendUserOperation, isSendingUserOperation, error } =
+    useSendUserOperation({
+      client,
+      // optional parameter that will wait for the transaction to be mined before returning
+      waitForTxn: true,
+      onSuccess: async ({ hash, request }) => {
+        console.log("Transaction hash:", hash);
 
-  const {
-    sendUserOperation,
-    isSendingUserOperation,
-    error,
-    sendUserOperationResult,
-  } = useSendUserOperation({
-    client,
-    waitForTxn: true,
-    onSuccess: async ({ hash, request }) => {
-      console.log("Transaction hash:", hash);
-
-      const receipt = await client?.getTransactionReceipt({ hash });
-      console.log("Transaction receipt:", receipt);
-
-      if (receipt?.logs && receipt.logs.length >= 2) {
-        const deployedWillAddress = receipt.logs[1].address;
-        console.log("Deployed Will Address:", deployedWillAddress);
-        if (client?.account.address) {
-          setWillAddress(client.account.address, deployedWillAddress);
+        const receipt = await client?.getTransactionReceipt({ hash });
+        console.log("Transaction receipt:", receipt);
+        // for (let i = 0; i < (receipt?.logs.length ?? 0); i++) {
+        //   console.log("logs", receipt?.logs[i]);
+        // }
+        if (receipt?.logs && receipt.logs.length >= 3) {
+          const deployedWillAddress =
+            receipt?.logs[receipt.logs.length - 3].address;
+          if (client?.account.address) {
+            setWillAddress(client.account.address, deployedWillAddress);
+          }
         }
-      }
-    },
-    onError: (error) => {
-      console.error("Operation failed:", error);
-    },
-  });
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
 
   const deployContract = async () => {
-    // if (!client?.account.address) return;
-
+    const beneficiaryAddress = "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89";
     try {
       const encodedWillFactoryData = encodeFunctionData({
         abi: willFactoryAbi,
         functionName: "createWill",
-        args: [],
+        args: [
+          client?.account.address!, // smartAccount address
+        ],
       });
 
       sendUserOperation({
@@ -82,7 +73,6 @@ export default function CreateWill() {
 
   return (
     <div>
-      <p>client address {client?.account?.address}</p>
       <button
         className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
         onClick={async () => {

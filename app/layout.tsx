@@ -8,9 +8,6 @@ import { config } from "@/app/lib/config";
 import { cookieToInitialState } from "@account-kit/core";
 import { Toaster } from "@/components/ui/toaster";
 
-import SideNav from "@/components/app/SideNav";
-import TopNavHeader from "@/components/app/TopNavHeader";
-
 export const metadata: Metadata = {
   title: {
     template: "%s | willi",
@@ -36,13 +33,7 @@ export default function RootLayout({
         <Providers initialState={initialState}>
           <Progress />
           <div className="flex h-screen flex-col">
-            {/* Top Navigation */}
-            <TopNavHeader />
             <div className="flex flex-1 overflow-hidden">
-              {/* Side Navigation */}
-              <aside className="w-24 border-r-2 flex flex-col items-center py-32 space-y-6">
-                <SideNav />
-              </aside>
               {/* Main Content Area */}
               <main className="flex-1 overflow-y-auto bg-white">
                 <div className="">{children}</div>
