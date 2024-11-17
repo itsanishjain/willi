@@ -42,13 +42,6 @@ export default function CreateWill() {
             setWillAddress(client.account.address, deployedWillAddress);
           }
         }
-        // if (receipt?.logs && receipt.logs.length >= 3) {
-        //   const deployedWillAddress = receipt.logs[2].address;
-        //   console.log("Deployed Will Address:", deployedWillAddress);
-        //   if (client?.account.address) {
-        //     setWillAddress(client.account.address, deployedWillAddress);
-        //   }
-        // }
       },
       onError: (error) => {
         console.error(error);
