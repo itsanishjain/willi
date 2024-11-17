@@ -103,11 +103,73 @@ export async function POST(request: Request) {
 // Optional: GET endpoint to fetch beneficiaries
 export async function GET(request: Request) {
   try {
-    const fetchedBeneficiaries = await db.select().from(beneficiaries);
+    const { searchParams } = new URL(request.url);
+    const accountWalletAddress = searchParams.get("address");
+
+    if (!accountWalletAddress) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Address query parameter is required",
+        },
+        { status: 400 }
+      );
+    }
+    const fetchedBeneficiaries = await db
+      .select()
+      .from(beneficiaries)
+      .where(eq(beneficiaries.accountWalletAddress, accountWalletAddress));
 
     return NextResponse.json({
       success: true,
-      data: beneficiaries,
+      data: fetchedBeneficiaries,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { id, status } = await request.json();
+
+    // Validate input
+    if (!id || !status) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "ID and status are required",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Update the beneficiary status in the database
+    const updatedBeneficiary = await db
+      .update(beneficiaries)
+      .set({ status })
+      .where(eq(beneficiaries.id, id))
+      .returning();
+
+    if (!updatedBeneficiary) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Beneficiary not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedBeneficiary,
     });
   } catch (error) {
     return NextResponse.json(

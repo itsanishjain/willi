@@ -36,6 +36,13 @@
       "when": 1731731494873,
       "tag": "0004_nifty_diamondback",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1731873329044,
+      "tag": "0005_milky_silvermane",
+      "breakpoints": true
     }
   ]
 }

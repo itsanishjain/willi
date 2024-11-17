@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -13,6 +13,9 @@ import {
 import { EllipsisVertical, Search, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddBeneficiaryModal from "@/components/app/AddBeneficiaryModal";
+import { useToast } from "../ui/use-toast";
+import ClaimAccount from "./ClaimAccount";
+import { useAuthModal, useSignerStatus, useUser } from "@account-kit/react";
 
 interface Beneficiary {
   id: string;
@@ -26,46 +29,70 @@ interface Beneficiary {
 }
 
 const BeneficiaryList = () => {
-  const [isAddBeneficiaryModalOpen, setIsAddBeneficiaryModalOpen] = useState(false);
+  const toast = useToast();
+  const user = useUser();
 
-  const beneficiaries: Beneficiary[] = [
-    {
-      id: "1",
-      walletAddress: "proofofwill.eth",
-      shortAddress: "0xd0f4...f743",
-      trustPercentage: 40,
-      email: "willi@alchemy.com",
-      relationship: "Brother",
-      phoneNumber: "(282)382-2716",
-      status: "Active",
-    },
-    {
-      id: "2",
-      walletAddress: "legacyholder.eth",
-      shortAddress: "0xa1b2...c3d4",
-      trustPercentage: 60,
-      email: "legacy@alchemy.com",
-      relationship: "Sister",
-      phoneNumber: "(123)456-7890",
-      status: "Inactive",
-    },
-    {
-      id: "3",
-      walletAddress: "futuretrust.eth",
-      shortAddress: "0x9e8f...7a6b",
-      trustPercentage: 75,
-      email: "future@alchemy.com",
-      relationship: "Friend",
-      phoneNumber: "(987)654-3210",
-      status: "Active",
-    },
-  ];
+  const [isAddBeneficiaryModalOpen, setIsAddBeneficiaryModalOpen] =
+    useState(false);
+
+  const [beneficiaries, setBeneficiaries] = useState();
+
+  // const beneficiaries: Beneficiary[] = [
+  //   {
+  //     id: "1",
+  //     walletAddress: "proofofwill.eth",
+  //     shortAddress: "0xd0f4...f743",
+  //     trustPercentage: 40,
+  //     email: "willi@alchemy.com",
+  //     relationship: "Brother",
+  //     phoneNumber: "(282)382-2716",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: "2",
+  //     walletAddress: "legacyholder.eth",
+  //     shortAddress: "0xa1b2...c3d4",
+  //     trustPercentage: 60,
+  //     email: "legacy@alchemy.com",
+  //     relationship: "Sister",
+  //     phoneNumber: "(123)456-7890",
+  //     status: "Inactive",
+  //   },
+  //   {
+  //     id: "3",
+  //     walletAddress: "futuretrust.eth",
+  //     shortAddress: "0x9e8f...7a6b",
+  //     trustPercentage: 75,
+  //     email: "future@alchemy.com",
+  //     relationship: "Friend",
+  //     phoneNumber: "(987)654-3210",
+  //     status: "Active",
+  //   },
+  // ];
+
+  const fetchBeni = async () => {
+    const r = await fetch(`/api/beneficiaries/?address=${user?.address}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const d = await r.json();
+    setBeneficiaries(d.data);
+  };
+
+  useEffect(() => {
+    fetchBeni();
+  }, []);
 
   return (
     <>
+      <pre>{JSON.stringify(beneficiaries, null, 2)}</pre>
       <div className="space-y-4">
         <div className="flex items-center justify-between h-10">
-          <h2 className="text-2xl font-semibold font-['Inter'] leading-none">Beneficiaries</h2>
+          <h2 className="text-2xl font-semibold font-['Inter'] leading-none">
+            Beneficiaries
+          </h2>
           <div className="flex items-center gap-4">
             <div className="relative flex items-center">
               <Search className="absolute left-2.5 top-1/2 h-4 w-4 text-muted-foreground -translate-y-1/2" />
@@ -107,7 +134,7 @@ const BeneficiaryList = () => {
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            {/* <TableBody>
               {beneficiaries.map((beneficiary) => (
                 <TableRow
                   key={beneficiary.id}
@@ -146,7 +173,7 @@ const BeneficiaryList = () => {
                           : "bg-red-50 text-red-700"
                       }`}
                     >
-                      {beneficiary.status}
+                      <ClaimAccount id={beneficiary.id} />
                     </span>
                   </TableCell>
                   <TableCell>
@@ -160,7 +187,7 @@ const BeneficiaryList = () => {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
+            </TableBody> */}
           </Table>
         </div>
       </div>

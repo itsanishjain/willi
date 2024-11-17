@@ -11,8 +11,22 @@ import willJson from "@/app/abi/Will.json";
 import { SALT } from "@/app/lib/constants";
 import { encodeFunctionData } from "viem";
 import { useWillStore } from "@/app/store/willStore";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function ClaimAccount() {
+export default function ClaimAccount({ id }: { id: number }) {
+  const { toast } = useToast();
+
+  const updateBeni = async () => {
+    const body = { id: id, status: "pending" };
+    fetch("/api/beneficiaries", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  };
+
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -31,12 +45,23 @@ export default function ClaimAccount() {
     useSendUserOperation({
       client,
       waitForTxn: true,
-      onSuccess: ({ hash, request }) => {
+      onSuccess: async ({ hash, request }) => {
         console.log("hash", hash);
         console.log("request", request);
+
+        await updateBeni();
+
+        toast({
+          title: "Success",
+        });
       },
       onError: (error) => {
         console.error(error);
+        toast({
+          title: "Error",
+          description: "Beneficiaries creator can't claim",
+          variant: "destructive",
+        });
       },
     });
 
@@ -52,6 +77,8 @@ export default function ClaimAccount() {
         functionName: "claimAccount",
         args: [],
       });
+
+      await updateBeni();
 
       sendUserOperation({
         uo: {
@@ -77,7 +104,7 @@ export default function ClaimAccount() {
       >
         {isSendingUserOperation ? "Sending..." : "Claim Account"}
       </button>
-      {error && <div>{error.message}</div>}
+      {/* {error && <div>{error.message}</div>} */}
     </div>
   );
 }

@@ -31,3 +31,8 @@ go ahead use it mortal people, you need it trust me, my mom also know that
 -
 
 tested updated
+
+Sent: when you add a beneficiers
+Pending:they didn't e
+Active:
+Inactive

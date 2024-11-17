@@ -32,7 +32,7 @@ export const beneficiaries = pgTable("beneficiaries", {
   phoneNumber: text("phone_number"),
   accountId: integer("account_id"), // Optionally keep accountId
   accountWalletAddress: text("accountWalletAddress"),
-  status: boolean("status").default(false),
+  status: text("status").default("sent"),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
