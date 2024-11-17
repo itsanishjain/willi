@@ -1,3 +1,5 @@
+"use client";
+
 import BankingDashboard from "@/components/app/BankingDashboard";
 import NFTPortfolio from "@/components/app/NFTPortfolio";
 import TokenPortfolio from "@/components/app/TokenPortfolio";
