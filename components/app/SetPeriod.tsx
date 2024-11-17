@@ -6,11 +6,12 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import { abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
 import { encodeFunctionData } from "viem";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
 
+const willAbi = willJson.abi;
 export default function SetPeriod() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",

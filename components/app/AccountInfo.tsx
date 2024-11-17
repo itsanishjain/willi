@@ -48,6 +48,8 @@ export default function AccountInfo() {
 
   return (
     <div className="space-y-4">
+      <p>Users's Smart Account Address: {client?.account?.address}</p>
+
       <p>Smart Account Owners: {owners}</p>
     </div>
   );

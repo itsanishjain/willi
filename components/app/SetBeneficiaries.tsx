@@ -6,10 +6,13 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
+
 import { encodeFunctionData, Address } from "viem";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
+
+const willAbi = willJson.abi;
 
 export default function SetBeneficiaries() {
   const { client } = useSmartAccountClient({
@@ -46,7 +49,7 @@ export default function SetBeneficiaries() {
 
     // Parameters to edit
     const beneficiaries: Address[] = [
-      "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89",
+      "0xF15120b66318d73c25c5Bf6c0aE111B637C9B64c",
     ];
 
     try {

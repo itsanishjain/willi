@@ -5,10 +5,9 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
+
 import { SALT } from "@/app/lib/constants";
 import { encodeFunctionData } from "viem";
 import { useWillStore } from "@/app/store/willStore";
@@ -23,6 +22,7 @@ export default function ClaimAccount() {
   });
 
   const { getWillAddress } = useWillStore();
+  const willAbi = willJson.abi;
   const willAddress = client?.account.address
     ? getWillAddress(client.account.address)
     : null;
@@ -56,7 +56,7 @@ export default function ClaimAccount() {
       sendUserOperation({
         uo: {
           // target: willAddress as `0x${string}`,
-          target: "0x756412149030cf9c1fc081c2faebef58b8aeb37e",
+          target: "0x28c9aa603f1a439c4abb08c472972b0bf7fa696d",
           data: encodedWillData,
           value: BigInt(0),
         },

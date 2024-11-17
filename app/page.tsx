@@ -5,12 +5,11 @@ import BeneficiaryList from "@/components/app/BeneficiaryList";
 import SubscriptionStatus from "@/components/app/SubscriptionStatus";
 import {
   useAuthModal,
+  useLogout,
   useSignerStatus,
   useUser,
-  useLogout,
 } from "@account-kit/react";
 import { Loader } from "lucide-react";
-import { v4 } from "uuid";
 
 import { useEffect } from "react";
 
@@ -48,11 +47,10 @@ export default function Home() {
             >
               Log out
             </button>
-            <div>{user.address}</div>
+            <div>User Address {user.address}</div>
             <CreateWill></CreateWill>
             <UpdateOwnersToWill></UpdateOwnersToWill>
             <SetBeneficiaries></SetBeneficiaries>
-            <SetSmartAccount />
             <Alive></Alive>
             <SetPeriod></SetPeriod>
             <ClaimAccount></ClaimAccount>
@@ -76,6 +74,9 @@ export default function Home() {
         <div className="flex flex-col gap-2 p-2">
           <SubscriptionStatus />
           <BeneficiaryList />
+          <SetBeneficiaries />
+          <Alive />
+          <SetPeriod />
         </div>
       ) : (
         <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">
