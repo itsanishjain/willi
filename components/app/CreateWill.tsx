@@ -32,10 +32,12 @@ export default function CreateWill() {
 
         const receipt = await client?.getTransactionReceipt({ hash });
         console.log("Transaction receipt:", receipt);
-
-        if (receipt?.logs && receipt.logs.length >= 2) {
-          const deployedWillAddress = receipt.logs[1].address;
-          console.log("Deployed Will Address:", deployedWillAddress);
+        // for (let i = 0; i < (receipt?.logs.length ?? 0); i++) {
+        //   console.log("logs", receipt?.logs[i]);
+        // }
+        if (receipt?.logs && receipt.logs.length >= 3) {
+          const deployedWillAddress =
+            receipt?.logs[receipt.logs.length - 3].address;
           if (client?.account.address) {
             setWillAddress(client.account.address, deployedWillAddress);
           }
