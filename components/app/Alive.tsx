@@ -6,9 +6,12 @@ import {
   useSmartAccountClient,
 } from "@account-kit/react";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
 import { createWalletClient, encodeFunctionData, encodeDeployData } from "viem";
 import { SALT } from "@/app/lib/constants";
+
+const willAbi = willJson.abi;
+
 export default function Alive() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",

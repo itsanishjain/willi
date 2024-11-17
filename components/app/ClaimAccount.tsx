@@ -5,12 +5,13 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
+import willJson from "@/app/abi/Will.json";
+
 import { SALT } from "@/app/lib/constants";
 import { encodeFunctionData } from "viem";
+
+const willAbi = willJson.abi;
 export default function ClaimAccount() {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",

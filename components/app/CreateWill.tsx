@@ -5,11 +5,9 @@ import {
   useSendUserOperation,
   useSmartAccountClient,
 } from "@account-kit/react";
-import { abi as multiOwnerLightAccountAbi } from "@/app/abi/MultiOwnerLightAccount.json";
-import { abi as willFactoryAbi } from "@/app/abi/WillFactory.json";
+import willFactoryJson from "@/app/abi/WillFactory.json";
+const willFactoryAbi = willFactoryJson.abi;
 
-import { bytecode, abi as willAbi } from "@/app/abi/Will.json";
-import { sepolia } from "viem/chains";
 import { encodeFunctionData, parseAbi } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
