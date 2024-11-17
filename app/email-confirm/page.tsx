@@ -71,7 +71,15 @@ export default function EmailConfirmation({
         <div className="flex flex-col gap-2 p-2">
           {/* <SubscriptionStatus />
           <BeneficiaryList /> */}
-          {uuid}
+          {/* {uuid} */}
+          <div className="bg-green-100 p-4 rounded-lg shadow-md text-center">
+            <h2 className="text-xl font-semibold text-green-600 mb-2">
+              Congratulations!
+            </h2>
+            <p className="text-gray-700">
+              You are now a beneficiary. Welcome aboard!
+            </p>
+          </div>
         </div>
       ) : (
         <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">
