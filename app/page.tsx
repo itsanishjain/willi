@@ -51,7 +51,6 @@ export default function Home() {
             <CreateWill></CreateWill>
             <UpdateOwnersToWill></UpdateOwnersToWill>
             <SetBeneficiaries></SetBeneficiaries>
-            <SetSmartAccount />
             <Alive></Alive>
             <SetPeriod></SetPeriod>
             <ClaimAccount></ClaimAccount>
