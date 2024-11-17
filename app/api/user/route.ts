@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       const u = await db
         .update(beneficiaries)
         .set({
-          status: "sent",
+          status: "Pending",
         })
         .where(eq(beneficiaries.email, body.email))
         .returning({
