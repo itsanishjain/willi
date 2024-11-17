@@ -41,7 +41,7 @@ export default function AuthWrapper({
       ) : user ? (
         <div className="flex flex-col gap-2 p-2">{children}</div>
       ) : (
-        <main className="flex min-h-screen flex-col items-center p-24 gap-4 justify-center text-center">
+        <main className="flex min-h-screen flex-col items-center  justify-center text-center">
           {pathname === "/" ? (
             children
           ) : (

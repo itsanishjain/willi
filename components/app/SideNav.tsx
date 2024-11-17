@@ -29,11 +29,6 @@ const links = [
     icon: "Home",
   },
   {
-    name: "Beneficiary",
-    href: "/dashboard/add-beneficiary",
-    icon: "User", // Assuming you want to use the CreditCard icon, change as needed
-  },
-  {
     name: "Transaction",
     href: "/dashboard/transactions",
     icon: "CreditCard",

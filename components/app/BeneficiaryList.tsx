@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { EllipsisVertical, Search, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import AddBeneficiaryModal from "@/components/app/AddBeneficiaryModal";
 
 interface Beneficiary {
   id: string;
@@ -26,6 +26,8 @@ interface Beneficiary {
 }
 
 const BeneficiaryList = () => {
+  const [isAddBeneficiaryModalOpen, setIsAddBeneficiaryModalOpen] = useState(false);
+
   const beneficiaries: Beneficiary[] = [
     {
       id: "1",
@@ -69,12 +71,13 @@ const BeneficiaryList = () => {
               <Search className="absolute left-2.5 top-1/2 h-4 w-4 text-muted-foreground -translate-y-1/2" />
               <Input placeholder="Filter by address or ENS" className="pl-8" />
             </div>
-            <Link href="/add-beneficiary" className="flex items-center">
-              <Button className="gap-2">
-                <UserPlus className="h-4 w-4" />
-                Add Beneficiary
-              </Button>
-            </Link>
+            <Button
+              className="gap-2"
+              onClick={() => setIsAddBeneficiaryModalOpen(true)}
+            >
+              <UserPlus className="h-4 w-4" />
+              Add Beneficiary
+            </Button>
           </div>
         </div>
       </div>
@@ -161,6 +164,10 @@ const BeneficiaryList = () => {
           </Table>
         </div>
       </div>
+      <AddBeneficiaryModal
+        isOpen={isAddBeneficiaryModalOpen}
+        onClose={() => setIsAddBeneficiaryModalOpen(false)}
+      />
     </>
   );
 };

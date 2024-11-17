@@ -19,12 +19,14 @@ import SetBeneficiaries from "@/components/app/SetBeneficiaries";
 import ClaimAccount from "@/components/app/ClaimAccount";
 import AccountInfo from "@/components/app/AccountInfo";
 import WillInfo from "@/components/app/WillInfo";
+import AddBeneficiaryModal from "@/components/app/AddBeneficiaryModal";
 
 export default function Home() {
   const user = useUser();
   const { openAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
   const [activeTab, setActiveTab] = useState<'beneficiaries' | 'notifications'>('beneficiaries');
+  const [isAddBeneficiaryModalOpen, setIsAddBeneficiaryModalOpen] = useState(false);
 
   if (signerStatus.isInitializing) {
     return (
@@ -74,27 +76,30 @@ export default function Home() {
 
       {/* Beneficiaries Section */}
       <div className="bg-white rounded-lg p-6">
-        <div className="flex gap-4 mb-6">
-          <div className="w-[400px] bg-gray-100/50 p-1 rounded-full flex">
-            <button 
-              onClick={() => setActiveTab('beneficiaries')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full transition-all ${
-                activeTab === 'beneficiaries' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <Users className="h-4 w-4" />
-              Beneficiaries
-            </button>
-            <button 
-              onClick={() => setActiveTab('notifications')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full transition-all ${
-                activeTab === 'notifications' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <Bell className="h-4 w-4" />
-              Notifications
-            </button>
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex gap-4">
+            <div className="w-[400px] bg-gray-100/50 p-1 rounded-full flex">
+              <button 
+                onClick={() => setActiveTab('beneficiaries')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full transition-all ${
+                  activeTab === 'beneficiaries' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Users className="h-4 w-4" />
+                Beneficiaries
+              </button>
+              <button 
+                onClick={() => setActiveTab('notifications')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-full transition-all ${
+                  activeTab === 'notifications' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Bell className="h-4 w-4" />
+                Notifications
+              </button>
+            </div>
           </div>
+         
         </div>
         
         {/* Content Section */}
@@ -166,6 +171,11 @@ export default function Home() {
         <AccountInfo />
         <WillInfo />
       </div>
+
+      <AddBeneficiaryModal 
+        isOpen={isAddBeneficiaryModalOpen}
+        onClose={() => setIsAddBeneficiaryModalOpen(false)}
+      />
     </div>
   );
 }

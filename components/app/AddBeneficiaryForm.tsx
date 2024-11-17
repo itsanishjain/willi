@@ -14,6 +14,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@account-kit/react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { truncateAddress } from "@/app/lib/utils";
 
@@ -28,7 +35,11 @@ interface ApiError {
   errors?: { message: string }[];
 }
 
-const AddBeneficiaryForm = () => {
+interface AddBeneficiaryFormProps {
+  onSuccess?: () => void;
+}
+
+const AddBeneficiaryForm = ({ onSuccess }: AddBeneficiaryFormProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     walletAddress: "",
@@ -139,6 +150,9 @@ const AddBeneficiaryForm = () => {
           variant: "default",
         });
 
+        // Call onSuccess after successful submission
+        onSuccess?.();
+
         // Reset form
         setFormData({
           walletAddress: "",
@@ -189,6 +203,7 @@ const AddBeneficiaryForm = () => {
       phoneNumber: "",
     });
     setErrors({});
+    onSuccess?.(); // Call onSuccess when canceling
   };
 
   return (
@@ -274,13 +289,27 @@ const AddBeneficiaryForm = () => {
               <Label htmlFor="relationship" className="text-sm font-medium">
                 Relationship
               </Label>
-              <Input
-                id="relationship"
-                name="relationship"
+              <Select
                 value={formData.relationship}
-                onChange={handleChange}
-                placeholder="Enter relationship"
-              />
+                onValueChange={(value) => 
+                  setFormData(prev => ({ ...prev, relationship: value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select relationship" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="mother">Mother</SelectItem>
+                  <SelectItem value="father">Father</SelectItem>
+                  <SelectItem value="brother">Brother</SelectItem>
+                  <SelectItem value="sister">Sister</SelectItem>
+                  <SelectItem value="son">Son</SelectItem>
+                  <SelectItem value="daughter">Daughter</SelectItem>
+                  <SelectItem value="secondary family member">Secondary Family Member</SelectItem>
+                  <SelectItem value="friend">Friend</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Phone Number Field */}

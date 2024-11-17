@@ -26,8 +26,33 @@ export default function Home() {
 
   return (
     <AuthWrapper>
-      <div>Hello world</div>
-      <Button onClick={openAuthModal}>Login</Button>
+      <div className="flex flex-col items-center w-full h-full relative">
+        <div className="w-full">
+          <img 
+            src="/willihome.svg"
+            alt="Logo"
+            className="w-full h-auto" 
+            style={{ display: 'block' }}
+          />
+        </div>
+        <Button 
+          onClick={openAuthModal} 
+          className="absolute"
+          style={{ 
+            color: 'white',
+            backgroundColor: '#000000',
+            borderRadius: '42px',
+            top: '14%',
+            fontSize: '18px',
+            fontWeight: '400',
+            padding: '24px 28px',
+            transform: 'translateY(-50%)', // Centers the button vertically at its position
+            zIndex: 10 // Ensures button stays on top
+          }}
+        >
+          Create Will
+        </Button>
+      </div>
     </AuthWrapper>
   );
 }
