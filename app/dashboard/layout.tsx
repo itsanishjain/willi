@@ -1,12 +1,14 @@
-import "../globals.css";
 import { inter } from "@/app/lib/fonts";
 import { Metadata } from "next";
-import Progress from "./progress";
-import { Providers } from "./providers";
+import Progress from "../progress";
+import { Providers } from "../providers";
 import { headers } from "next/headers";
 import { config } from "@/app/lib/config";
 import { cookieToInitialState } from "@account-kit/core";
 import { Toaster } from "@/components/ui/toaster";
+
+import SideNav from "@/components/app/SideNav";
+import TopNavHeader from "@/components/app/TopNavHeader";
 
 export const metadata: Metadata = {
   title: {
@@ -16,7 +18,8 @@ export const metadata: Metadata = {
   description: "willi, you gonna die so let's fix your cryoto",
   metadataBase: new URL("https://willi.com"),
 };
-export default function RootLayout({
+
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -33,7 +36,13 @@ export default function RootLayout({
         <Providers initialState={initialState}>
           <Progress />
           <div className="flex h-screen flex-col">
+            {/* Top Navigation */}
+            <TopNavHeader />
             <div className="flex flex-1 overflow-hidden">
+              {/* Side Navigation */}
+              <aside className="w-24 border-r-2 flex flex-col items-center py-32 space-y-6">
+                <SideNav />
+              </aside>
               {/* Main Content Area */}
               <main className="flex-1 overflow-y-auto bg-white">
                 <div className="">{children}</div>
