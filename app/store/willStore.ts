@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface WillState {
   willAddresses: Record<string, string>
@@ -23,6 +23,7 @@ export const useWillStore = create<WillState>()(
     }),
     {
       name: 'will-storage',
+      storage: createJSONStorage(() => localStorage),
     }
   )
 ) 
