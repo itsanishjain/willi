@@ -94,8 +94,8 @@ const AddBeneficiaryForm = ({ onSuccess }: AddBeneficiaryFormProps) => {
     }
   };
 
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
     : "http://localhost:3000";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -291,8 +291,8 @@ const AddBeneficiaryForm = ({ onSuccess }: AddBeneficiaryFormProps) => {
               </Label>
               <Select
                 value={formData.relationship}
-                onValueChange={(value) => 
-                  setFormData(prev => ({ ...prev, relationship: value }))
+                onValueChange={(value) =>
+                  setFormData((prev) => ({ ...prev, relationship: value }))
                 }
               >
                 <SelectTrigger>
@@ -305,7 +305,9 @@ const AddBeneficiaryForm = ({ onSuccess }: AddBeneficiaryFormProps) => {
                   <SelectItem value="sister">Sister</SelectItem>
                   <SelectItem value="son">Son</SelectItem>
                   <SelectItem value="daughter">Daughter</SelectItem>
-                  <SelectItem value="secondary family member">Secondary Family Member</SelectItem>
+                  <SelectItem value="secondary family member">
+                    Secondary Family Member
+                  </SelectItem>
                   <SelectItem value="friend">Friend</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
