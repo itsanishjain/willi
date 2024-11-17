@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   type UseSendUserOperationResult,
   useSendUserOperation,
@@ -8,7 +8,10 @@ import {
 import willFactoryJson from "@/app/abi/WillFactory.json";
 const willFactoryAbi = willFactoryJson.abi;
 
-import { encodeFunctionData, parseAbi } from "viem";
+import multiOwnerLightAccountJson from "@/app/abi/MultiOwnerLightAccount.json";
+const multiOwnerLightAccountAbi = multiOwnerLightAccountJson.abi;
+
+import { Address, encodeFunctionData, parseAbi } from "viem";
 import { WILL_FACTORY_CONTRACT_ADDRESS } from "@/app/lib/constants";
 import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
@@ -22,6 +25,12 @@ export default function CreateWill() {
     },
   });
   const { setWillAddress } = useWillStore();
+  const [hasSentUpdateOwners, setHasSentUpdateOwners] = useState(false);
+  type NewType = Address;
+
+  const [deployedWillAddressState, setDeployedWillAddressState] =
+    useState<NewType>();
+
   const { sendUserOperation, isSendingUserOperation, error } =
     useSendUserOperation({
       client,
@@ -35,12 +44,19 @@ export default function CreateWill() {
         // for (let i = 0; i < (receipt?.logs.length ?? 0); i++) {
         //   console.log("logs", receipt?.logs[i]);
         // }
+        if (hasSentUpdateOwners) {
+          return;
+        }
+        setHasSentUpdateOwners(true);
+
         if (receipt?.logs && receipt.logs.length >= 3) {
           const deployedWillAddress =
             receipt?.logs[receipt.logs.length - 3].address;
           if (client?.account.address) {
             setWillAddress(client.account.address, deployedWillAddress);
+            setDeployedWillAddressState(deployedWillAddress as any); // Type assertion to fix type error
           }
+          updateOwnersToWill(deployedWillAddress);
         }
       },
       onError: (error) => {
@@ -49,7 +65,6 @@ export default function CreateWill() {
     });
 
   const deployContract = async () => {
-    const beneficiaryAddress = "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89";
     try {
       const encodedWillFactoryData = encodeFunctionData({
         abi: willFactoryAbi,
@@ -71,12 +86,32 @@ export default function CreateWill() {
     }
   };
 
+  const updateOwnersToWill = async (willAddress: Address) => {
+    try {
+      const encodedUpdateOwnership = encodeFunctionData({
+        abi: multiOwnerLightAccountAbi,
+        functionName: "updateOwners",
+        args: [[willAddress], []],
+      });
+
+      sendUserOperation({
+        uo: {
+          target: client?.account.address as Address,
+          data: encodedUpdateOwnership,
+          value: BigInt(0),
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <button
         className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
         onClick={async () => {
           console.log("client account address", client?.account.address);
+          setHasSentUpdateOwners(false);
           deployContract();
         }}
         disabled={isSendingUserOperation}
