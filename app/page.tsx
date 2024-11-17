@@ -13,13 +13,13 @@ export default function Home() {
   const user = useUser();
   const { openAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push("/dashboard");
+  //   }
+  // }, [user]);
 
   if (signerStatus.isInitializing && user) {
     return <Loader className="animate-spin w-6 h-6" />;

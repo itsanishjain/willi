@@ -83,9 +83,10 @@ export default function Home() {
               <span>Active</span>
             </div>
           </div>
-          <Button className="bg-blue-600 text-white" onClick={() => {}}>
+          {/* <Button className="bg-blue-600 text-white" onClick={() => {}}>
             Confirm Activity
-          </Button>
+          </Button> */}
+          <Alive />
         </div>
         <div className="grid grid-cols-2 gap-8">
           <div>
