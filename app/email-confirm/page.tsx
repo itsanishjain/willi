@@ -42,6 +42,7 @@ export default function EmailConfirmation({
         email: user.email,
         walletAddress: user.address,
         uuid: uuid,
+        status: "Pending",
       };
       addUser(body);
       console.log(body);
