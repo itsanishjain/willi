@@ -4,13 +4,19 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { EllipsisVertical, Clock } from "lucide-react";
 import Link from "next/link";
-
-import { useSignerStatus, useLogout, useUser } from "@account-kit/react";
+import {
+  useSignerStatus,
+  useLogout,
+  useUser,
+  useAuthModal,
+} from "@account-kit/react";
+import { truncateAddress } from "@/app/lib/utils";
 
 const TopNavHeader = () => {
   const signerStatus = useSignerStatus();
   const { logout } = useLogout();
   const user = useUser();
+  const { openAuthModal } = useAuthModal();
 
   return (
     <div className="w-full bg-white border-b">
@@ -32,13 +38,14 @@ const TopNavHeader = () => {
             </div>
 
             {/* Account Button */}
-            <Button
-              variant="outline"
-              className="flex items-center space-x-2 border border-green-500 text-gray-700 hover:bg-green-50"
-            >
+            <div className="flex items-center space-x-2">
               <div className="h-6 w-6 rounded-full bg-gray-200" />
-              <span className="text-sm">willi.eth</span>
-            </Button>
+              {user?.address ? (
+                truncateAddress(user?.address || "")
+              ) : (
+                <Button onClick={openAuthModal}>Login</Button>
+              )}
+            </div>
 
             <Link href="https://rocketship.lemonsqueezy.com/buy/4a01d680-ec31-4d1c-8dd1-66af668b5ce7?checkout[custom][user_id]=${userId}">
               <Button>Subscribe</Button>
