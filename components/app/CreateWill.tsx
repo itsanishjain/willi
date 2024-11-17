@@ -36,13 +36,16 @@ export default function CreateWill() {
     });
 
   const deployContract = async () => {
-    // if (!client?.account.address) return;
-
+    const beneficiaryAddress = "0x5C8aD0AA7Bd48f0D0EB0FAE8fDb01b83Fcaa8f89";
     try {
       const encodedWillFactoryData = encodeFunctionData({
         abi: willFactoryAbi,
         functionName: "createWill",
-        args: [],
+        args: [
+          client?.account.address!, // smartAccount address
+          BigInt(30 * 24 * 60 * 60), // proofOfLifePeriod (30 days in seconds)
+          [beneficiaryAddress], // array of beneficiary addresses
+        ],
       });
 
       sendUserOperation({
