@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import AddBeneficiaryModal from "@/components/app/AddBeneficiaryModal";
 import SetBeneficiaries from "@/components/app/SetBeneficiaries";
 
 interface Beneficiary {
@@ -73,6 +74,9 @@ const BeneficiariesTable: React.FC<BeneficiariesTableProps> = ({
     return beneficiaries.reduce((sum, b) => sum + Number(b.trustPercentage), 0);
   }, [beneficiaries]);
 
+  const [isAddBeneficiaryModalOpen, setIsAddBeneficiaryModalOpen] =
+    useState(false);
+
   return (
     <div className="space-y-6">
       {/* Header Section */}
@@ -96,7 +100,10 @@ const BeneficiariesTable: React.FC<BeneficiariesTableProps> = ({
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button className="gap-2" onClick={onAddBeneficiary}>
+            <Button
+              className="gap-2"
+              onClick={() => setIsAddBeneficiaryModalOpen(true)}
+            >
               <UserPlus className="h-4 w-4" />
               Add Beneficiary
             </Button>
@@ -211,6 +218,10 @@ const BeneficiariesTable: React.FC<BeneficiariesTableProps> = ({
           </TableBody>
         </Table>
       </div>
+      <AddBeneficiaryModal
+        isOpen={isAddBeneficiaryModalOpen}
+        onClose={() => setIsAddBeneficiaryModalOpen(false)}
+      />
     </div>
   );
 };
