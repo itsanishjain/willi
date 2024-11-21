@@ -13,6 +13,7 @@ import willFactoryJson from "@/app/abi/WillFactory.json";
 const willFactoryAbi = willFactoryJson.abi;
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 import multiOwnerLightAccountJson from "@/app/abi/MultiOwnerLightAccount.json";
 const multiOwnerLightAccountAbi = multiOwnerLightAccountJson.abi;
@@ -23,7 +24,8 @@ import { SALT } from "@/app/lib/constants";
 import { useWillStore } from "@/app/store/willStore";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
-export default function CreateWill() {
+
+export default function CreateWill({ isDashboard = false }) {
   const { client } = useSmartAccountClient({
     type: "MultiOwnerLightAccount",
     policyId: process.env.NEXT_PUBLIC_POLICY_ID!,
@@ -140,40 +142,61 @@ export default function CreateWill() {
   };
 
   return (
-    <Button
-      // className="bg-blue-600 text-white w-40 rounded-md py-2 px-4"
-      className="absolute"
-      style={{
-        color: "white",
-        backgroundColor: "#000000",
-        borderRadius: "42px",
-        top: "14%",
-        fontSize: "18px",
-        fontWeight: "400",
-        padding: "24px 28px",
-        transform: "translateY(-50%)", // Centers the button vertically at its position
-        zIndex: 10, // Ensures button stays on top
-      }}
-      onClick={async () => {
-        console.log("client account address", client?.account.address);
-        setHasSentUpdateOwners(false);
-        if (signerStatus.isConnected) {
-          deployContract();
-        } else {
-          try {
-            openAuthModal();
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }}
-      disabled={isSendingUserOperation || isPending}
-    >
-      {isSendingUserOperation
-        ? "Sending..."
-        : isPending
-        ? "Signing in..."
-        : "Create Will"}
-    </Button>
+    <>
+      {isDashboard ? (
+        <Link
+          className="absolute"
+          style={{
+            color: "white",
+            backgroundColor: "#000000",
+            borderRadius: "42px",
+            top: "14%",
+            fontSize: "18px",
+            fontWeight: "400",
+            padding: "24px 28px",
+            transform: "translateY(-50%)", // Centers the button vertically at its position
+            zIndex: 10, // Ensures button stays on top
+          }}
+          href="/dashboard"
+        >
+          Go to Dashboard
+        </Link>
+      ) : (
+        <Button
+          className="absolute"
+          style={{
+            color: "white",
+            backgroundColor: "#000000",
+            borderRadius: "42px",
+            top: "14%",
+            fontSize: "18px",
+            fontWeight: "400",
+            padding: "24px 28px",
+            transform: "translateY(-50%)", // Centers the button vertically at its position
+            zIndex: 10, // Ensures button stays on top
+          }}
+          onClick={async () => {
+            console.log("client account address", client?.account.address);
+            setHasSentUpdateOwners(false);
+            if (signerStatus.isConnected) {
+              deployContract();
+            } else {
+              try {
+                openAuthModal();
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }}
+          disabled={isSendingUserOperation || isPending}
+        >
+          {isSendingUserOperation
+            ? "Sending..."
+            : isPending
+            ? "Signing in..."
+            : "Create Will"}
+        </Button>
+      )}
+    </>
   );
 }

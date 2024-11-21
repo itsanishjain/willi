@@ -25,13 +25,18 @@ const iconMap = {
 const links = [
   {
     name: "Home",
-    href: "/",
+    href: "/dashboard",
     icon: "Home",
   },
   {
     name: "Transaction",
     href: "/dashboard/transactions",
     icon: "CreditCard",
+  },
+  {
+    name: "Settings",
+    href: "/dashboard/notificatios-settings",
+    icon: "Settings",
   },
 ];
 

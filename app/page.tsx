@@ -6,20 +6,22 @@ import CreateWill from "@/components/app/CreateWill";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const user = useUser();
   const { openAuthModal } = useAuthModal();
   const signerStatus = useSignerStatus();
+  const [isDashboard, setIsDashboard] = useState(false);
   // const router = useRouter();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    const willStorage = localStorage.getItem("will-storage");
+    if (willStorage) {
+      setIsDashboard(true);
+    }
+  }, []);
 
   if (signerStatus.isInitializing && user) {
     return <Loader className="animate-spin w-6 h-6" />;
@@ -53,7 +55,7 @@ export default function Home() {
         >
           Create Will
         </Button> */}
-        <CreateWill />
+        <CreateWill isDashboard={isDashboard} />
       </div>
     </AuthWrapper>
   );

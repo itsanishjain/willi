@@ -1,42 +1,44 @@
-## Todos
+Here's your content with corrected grammar and improved clarity:
 
-- [] add alchemy ReadAPIs
-- [] adding middleware
-- [] adding asset read dashboard
-- [] if middleware dont' work, add cool first time loading animiation
-- [] add benifieciery CRUD
-- [] deploying custom smarty wallet for "willi Dude"
-- [] setting up email notifications
-- [] make landing page
-- [] latere add proper docs and foudner note page and other static pages
+---
 
-## Ask alchemy
+## Features
 
-- [] add more redirect urls
+- [ ] Add Alchemy ReadAPIs.
+- [ ] Add middleware.
+- [ ] Create an asset read dashboard.
+- [ ] If middleware doesn't work, add a cool first-time loading animation.
+- [ ] Add beneficiary CRUD functionality.
+- [ ] Deploy a custom smart wallet for "Willi Dude."
+- [ ] Set up email notifications.
+- [ ] Build the landing page.
+- [ ] Later, add proper documentation, a founder's note page, and other static pages.
 
-Client address:
-0xB080274F36C59cba703E526B3030eB4D03FDe8cF
+**Client Address:**  
+`0xB080274F36C59cba703E526B3030eB4D03FDe8cF`
 
-Counter address:
-0x406126d4662812F1D5b14d7351CEd8a74351Bcd1
+**Counter Address:**  
+`0x406126d4662812F1D5b14d7351CEd8a74351Bcd1`
 
-Will factory address:
-0x3c11E3a91a388D254140affa1B20bBd31b925c5d
+**Willi Factory Address:**  
+`0x9D2374B0A7b5Dd5cb75101Fb2FF985Fed8AC89A3`
 
-go ahead use it mortal people, you need it trust me, my mom also know that
+---
 
-- get all the tokens and nfts prices in USD
-- address
-- tokenId
--
+**Note:** Go ahead and use this, mortals—you need it! Trust me, even my mom knows that.
 
-tested updated
+Features to include:
 
-Sent: when you add a beneficiers
-Pending:they didn't e
-Active:
-Inactive
+- Fetch all tokens and NFT prices in USD.
+  - Address
+  - Token ID
 
-updated
-updaetds
-updatreddd
+---
+
+## Deployed Contracts on Arbitrum Sepolia
+
+- [Willi Smart Contracts Deployment](https://sepolia.arbiscan.io/address/0x9D2374B0A7b5Dd5cb75101Fb2FF985Fed8AC89A3#internaltx)
+
+![Alt text describing the image](/public/readme/config.png)
+
+- [GitHub Repository (constants.ts)](https://github.com/itsanishjain/willi/blob/master/app/lib/constants.ts)
