@@ -142,61 +142,39 @@ export default function CreateWill({ isDashboard = false }) {
   };
 
   return (
-    <>
-      {isDashboard ? (
-        <Link
-          className="absolute"
-          style={{
-            color: "white",
-            backgroundColor: "#000000",
-            borderRadius: "42px",
-            top: "14%",
-            fontSize: "18px",
-            fontWeight: "400",
-            padding: "24px 28px",
-            transform: "translateY(-50%)", // Centers the button vertically at its position
-            zIndex: 10, // Ensures button stays on top
-          }}
-          href="/dashboard"
-        >
-          Go to Dashboard
-        </Link>
-      ) : (
-        <Button
-          className="absolute"
-          style={{
-            color: "white",
-            backgroundColor: "#000000",
-            borderRadius: "42px",
-            top: "14%",
-            fontSize: "18px",
-            fontWeight: "400",
-            padding: "24px 28px",
-            transform: "translateY(-50%)", // Centers the button vertically at its position
-            zIndex: 10, // Ensures button stays on top
-          }}
-          onClick={async () => {
-            console.log("client account address", client?.account.address);
-            setHasSentUpdateOwners(false);
-            if (signerStatus.isConnected) {
-              deployContract();
-            } else {
-              try {
-                openAuthModal();
-              } catch (error) {
-                console.log(error);
-              }
-            }
-          }}
-          disabled={isSendingUserOperation || isPending}
-        >
-          {isSendingUserOperation
-            ? "Sending..."
-            : isPending
-            ? "Signing in..."
-            : "Create Will"}
-        </Button>
-      )}
-    </>
+    <Button
+      className="absolute"
+      style={{
+        color: "white",
+        backgroundColor: "#000000",
+        borderRadius: "42px",
+        top: "14%",
+        fontSize: "18px",
+        fontWeight: "400",
+        padding: "24px 28px",
+        transform: "translateY(-50%)", // Centers the button vertically at its position
+        zIndex: 10, // Ensures button stays on top
+      }}
+      onClick={async () => {
+        console.log("client account address", client?.account.address);
+        setHasSentUpdateOwners(false);
+        if (signerStatus.isConnected) {
+          deployContract();
+        } else {
+          try {
+            openAuthModal();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }}
+      disabled={isSendingUserOperation || isPending}
+    >
+      {isSendingUserOperation
+        ? "Sending..."
+        : isPending
+        ? "Signing in..."
+        : "Create Will"}
+    </Button>
   );
 }
